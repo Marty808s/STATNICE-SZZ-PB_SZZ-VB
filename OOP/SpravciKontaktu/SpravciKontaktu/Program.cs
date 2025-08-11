@@ -1,9 +1,10 @@
-﻿//Console.WriteLine("Hello, World!");
-/*
+﻿/*
 1. Prototype: Pro efektivní vytváření a kopírování kontaktních záznamů.
 2. Command: Pro zaznamenávání a možné vrácení změn v kontaktech.
 3. Iterator: Pro navigaci skrze kolekci kontaktů.
 TO:DO - dodělat úpravu + jednotkové testy
+TO:DO - hledání kontaktů podle jména
+TO:DO - export kontaktů a jeho načtení při spuštění
 */
 
 //1. Prototype - pro kontakty
