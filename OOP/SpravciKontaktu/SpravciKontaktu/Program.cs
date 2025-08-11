@@ -2,9 +2,9 @@
 1. Prototype: Pro efektivní vytváření a kopírování kontaktních záznamů.
 2. Command: Pro zaznamenávání a možné vrácení změn v kontaktech.
 3. Iterator: Pro navigaci skrze kolekci kontaktů.
-TO:DO - dodělat úpravu + jednotkové testy
-TO:DO - hledání kontaktů podle jména
-TO:DO - export kontaktů a jeho načtení při spuštění
+TO:DO - jednotkové testy
+DONE - hledání kontaktů podle jména
+DONE - export kontaktů a jeho načtení při spuštění
 */
 
 //1. Prototype - pro kontakty
@@ -67,6 +67,19 @@ public class KontaktKolekce
     public void Insert(int index, Kontakt kontakt) => _kontakty.Insert(index, kontakt);
     public int Count => _kontakty.Count;
     public Kontakt Edit(int index, Kontakt kontakt) => _kontakty[index] = kontakt;
+    public KontaktKolekce Search(string text)
+    {
+        var result = new KontaktKolekce();
+        foreach (var kontakt in _kontakty)
+        {
+            if (!string.IsNullOrEmpty(kontakt.name) &&
+                kontakt.name.Contains(text, StringComparison.OrdinalIgnoreCase))
+            {
+                result.Add(kontakt);
+            }
+        }
+        return result;
+    }
     public Kontakt Get(int index) => _kontakty[index];
 
     // NEW: vrať smazaný kontakt, ať jde vrátit zpět
@@ -164,6 +177,63 @@ public class KontaktCreate : ICommand
     }
 }
 
+public class KontaktSearch : ICommand
+{
+    private readonly KontaktKolekce _kolekce;
+    public string text;
+
+    public KontaktSearch(KontaktKolekce _data, string text)
+    {
+        this.text = text;
+        this._kolekce = _data;
+
+    }
+
+    public void Execute()
+    {
+        {
+            var results = _kolekce.Search(text);
+            if (results.Count == 0)
+            {
+                Console.WriteLine("Žádné kontakty nenalezeny.");
+            }
+            else
+            {
+                var it = results.CreateIterator();
+                int i = 1;
+                while (it.HasNext())
+                {
+                    var k = it.GetNext();
+                    Console.WriteLine($"{i++}. {k.name} | {k.phone} | {k.email}");
+                }
+            }
+        }
+    }
+
+    public void Undo()
+    {
+        this.text = "";
+        {
+            var results = _kolekce.Search(text);
+            if (results.Count == 0)
+            {
+                Console.WriteLine("Žádné kontakty nenalezeny.");
+            }
+            else
+            {
+                var it = results.CreateIterator();
+                int i = 1;
+                while (it.HasNext())
+                {
+                    var k = it.GetNext();
+                    Console.WriteLine($"{i++}. {k.name} | {k.phone} | {k.email}");
+                }
+            }
+        }
+    }
+}
+
+
 // Command Manager - ten bude executovat a ukládat commandy - připádně je vracet pomocí Undo ze zásobníku
 public class CommandManager
 {
@@ -189,6 +259,73 @@ public class CommandManager
 }
 
 
+public class KontaktyFile
+{
+    public string name { get; set; }
+    public string route { get; set; }
+    public KontaktKolekce source { get; set; }
+
+    public KontaktyFile(KontaktKolekce source)
+    {
+        this.source = source;
+        this.name = "export-kontakty";
+
+        string projectPath = AppDomain.CurrentDomain.BaseDirectory;
+        string exportDir = Path.Combine(projectPath, "exports");
+
+        if (!Directory.Exists(exportDir))
+        {
+            Directory.CreateDirectory(exportDir);
+        }
+
+        this.route = Path.Combine(exportDir, $"{name}.txt");
+    }
+
+
+    public void Export()
+    {
+        using (StreamWriter writer = new StreamWriter(route))
+        {
+            for (int i = 0; i < source.Count; i++)
+            {
+                var kontakt = source.Get(i);
+                writer.WriteLine($"{kontakt.name} | {kontakt.phone} | {kontakt.email}");
+            }
+        }
+
+        Console.WriteLine($"Soubor uložen: {route}");
+    }
+
+    public KontaktKolekce Import()
+    {
+        var kolekce = new KontaktKolekce();
+
+        if (!File.Exists(route))
+        {
+            Console.WriteLine("Import: Soubor nenalezen, bude vytvořen nový při exportu.");
+            return kolekce;
+        }
+
+        var lines = File.ReadAllLines(route);
+        foreach (var line in lines)
+        {
+            var parts = line.Split('|');
+            if (parts.Length == 3)
+            {
+                kolekce.Add(new Kontakt
+                {
+                    name = parts[0].Trim(),
+                    phone = parts[1].Trim(),
+                    email = parts[2].Trim()
+                });
+            }
+        }
+
+        Console.WriteLine($"Import: Načteno {kolekce.Count} kontaktů ze souboru {route}.");
+        return kolekce;
+    }
+}
+
 //UI
 public class ConsoleUI
 {
@@ -197,9 +334,23 @@ public class ConsoleUI
 
     public ConsoleUI()
     {
-        // dummy
-        _data.Add(new Kontakt { name = "Karel", phone = "123", email = "karel@example.com" });
-        _data.Add(new Kontakt { name = "Petr", phone = "456", email = "petr@example.com" });
+        var importer = new KontaktyFile(_data);
+        var importedData = importer.Import();
+
+        if (importedData.Count > 0)
+        {
+            // importované kontakty do hlavní kolekce
+            for (int i = 0; i < importedData.Count; i++)
+            {
+                _data.Add(importedData.Get(i));
+            }
+        }
+        else
+        {
+            // dummy data
+            _data.Add(new Kontakt { name = "Karel", phone = "123", email = "karel@example.com" });
+            _data.Add(new Kontakt { name = "Petr", phone = "456", email = "petr@example.com" });
+        }
     }
 
     public void Run()
@@ -214,6 +365,9 @@ public class ConsoleUI
             Console.WriteLine("4) Klonovat kontakt (Prototype)");
             Console.WriteLine("5) Upravit kontakt");
             Console.WriteLine("6) Vrátit poslední akci (Undo)");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("S) Hledat kontakty");
+            Console.WriteLine("E) Exportovat kontakty");
             Console.WriteLine("0) Konec");
             Console.Write("Volba: ");
 
@@ -222,6 +376,8 @@ public class ConsoleUI
 
             switch (key)
             {
+                case "S": SearchKontakty(); break;
+                case "E": ExportKontakty(); break;
                 case "1": ListKontakty(); break;
                 case "2": AddKontakt(); break;
                 case "3": DeleteKontakt(); break;
@@ -231,6 +387,29 @@ public class ConsoleUI
                 case "0": return;
                 default: Console.WriteLine("Neplatná volba."); break;
             }
+        }
+    }
+
+    private void ExportKontakty()
+    {
+        if (_data.Count == 0)
+        {
+            Console.WriteLine("Není co exportovat.");
+            return;
+        }
+
+        var exporterNow = new KontaktyFile(_data); 
+        exporterNow.Export();                  
+    }
+
+    private void SearchKontakty()
+    {
+        Console.WriteLine("Hledejte podle jména kontaktu");
+        string search = Console.ReadLine();
+
+        if (!string.IsNullOrEmpty(search)) 
+        {
+            _cmd.Execute(new KontaktSearch(_data, search));
         }
     }
 
