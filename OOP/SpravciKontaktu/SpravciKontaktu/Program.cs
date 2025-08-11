@@ -9,6 +9,7 @@ TO:DO - dodělat úpravu + jednotkové testy
 //1. Prototype - pro kontakty
 //T je generický typ → návratová hodnota Clone() bude stejného typu jako objekt, který implementuje interface.
 using System;
+using System.Reflection;
 
 public interface IPrototype<T>
 {
@@ -62,35 +63,127 @@ public class KontaktKolekce
 {
     private readonly List<Kontakt> _kontakty = new();
     public void Add(Kontakt kontakt) => _kontakty.Add(kontakt);
+    public void Insert(int index, Kontakt kontakt) => _kontakty.Insert(index, kontakt);
     public int Count => _kontakty.Count;
+    public Kontakt Edit(int index, Kontakt kontakt) => _kontakty[index] = kontakt;
     public Kontakt Get(int index) => _kontakty[index];
-    // Vytvoří iterátor
+
+    // NEW: vrať smazaný kontakt, ať jde vrátit zpět
+    public Kontakt Delete(int index)
+    {
+        var removed = _kontakty[index];
+        _kontakty.RemoveAt(index);
+        return removed;
+    }
     public KontaktIterator CreateIterator() => new KontaktIterator(this);
 }
 
 
-//3. Command
+//3. Command rozhraní
 public interface ICommand
 {
     void Execute();
+    void Undo();
 }
 
-// Jeden command nad kontaktem
+// Commandy nad kontaktem
 public class KontaktDelete : ICommand
 {
-    public Kontakt kontakt { get; set; }
-    public KontaktKolekce _kolekce { get; set; }
+    private readonly KontaktKolekce _kolekce;
+    private readonly int _index;
+    private Kontakt _deletedKontakt;
 
-    public KontaktDelete(KontaktKolekce data, Kontakt input)
+    public KontaktDelete(KontaktKolekce data, Kontakt input, int index)
     {
-        this._kolekce = data;
-        this.kontakt = input;
+        _kolekce = data;
+        _index = index;
+        _deletedKontakt = input;
     }
+
     public void Execute()
     {
-        // zpráva do konzole + dodělat vrácení stavu
-        Console.WriteLine($"Mazání kontaktu: {this.kontakt.name}");
-        // zavolání operace na KontaktKolekce
+        Console.WriteLine($"Mazání kontaktu: {_deletedKontakt.name}");
+        _deletedKontakt = _kolekce.Delete(_index); // vezmi reálně smazaný kus
+    }
+
+    public void Undo()
+    {
+        _kolekce.Insert(_index, _deletedKontakt);
+    }
+}
+
+public class KontaktEdit : ICommand
+{
+    private readonly KontaktKolekce _kolekce;
+    private readonly int _index;
+    private readonly Kontakt _newKontakt;
+    private Kontakt _oldKontakt;
+
+    public KontaktEdit(KontaktKolekce data, int index, Kontakt input)
+    {
+        _kolekce = data;
+        _index = index;
+        _newKontakt = input;
+    }
+
+    public void Execute()
+    {
+        _oldKontakt = _kolekce.Get(_index).Clone(); // ulož původní stav
+        _kolekce.Edit(_index, _newKontakt);
+    }
+
+    public void Undo()
+    {
+        _kolekce.Edit(_index, _oldKontakt);
+    }
+}
+
+public class KontaktCreate : ICommand
+{
+    private readonly KontaktKolekce _kolekce;
+    private readonly Kontakt _kontakt;
+    private int? _insertIndex;
+
+    public KontaktCreate(KontaktKolekce data, Kontakt input)
+    {
+        _kolekce = data;
+        _kontakt = input;
+    }
+
+    public void Execute()
+    {
+        _kolekce.Add(_kontakt);
+        _insertIndex = _kolekce.Count - 1;
+    }
+
+    public void Undo()
+    {
+        if (_insertIndex.HasValue)
+            _kolekce.Delete(_insertIndex.Value);
+    }
+}
+
+// Command Manager - ten bude executovat a ukládat commandy - připádně je vracet pomocí Undo ze zásobníku
+public class CommandManager
+{
+    private readonly Stack<ICommand> _history = new();
+
+    public void Execute(ICommand command)
+    {
+        command.Execute();
+        _history.Push(command);
+    }
+
+    public void Undo()
+    {
+        if (_history.Count == 0)
+        {
+            Console.WriteLine("Není co vracet.");
+            return;
+        }
+
+        var cmd = _history.Pop();
+        cmd.Undo();
     }
 }
 
@@ -99,7 +192,7 @@ public class KontaktDelete : ICommand
 public class ConsoleUI
 {
     private readonly KontaktKolekce _data = new();
-    //TO:DO - dodělat commandy, všechny přes set vytvořit jako prop, potom je přidat níže přes Execute
+    private readonly CommandManager _cmd = new();
 
     public ConsoleUI()
     {
@@ -118,6 +211,8 @@ public class ConsoleUI
             Console.WriteLine("2) Přidat kontakt");
             Console.WriteLine("3) Smazat kontakt");
             Console.WriteLine("4) Klonovat kontakt (Prototype)");
+            Console.WriteLine("5) Upravit kontakt");
+            Console.WriteLine("6) Vrátit poslední akci (Undo)");
             Console.WriteLine("0) Konec");
             Console.Write("Volba: ");
 
@@ -130,6 +225,8 @@ public class ConsoleUI
                 case "2": AddKontakt(); break;
                 case "3": DeleteKontakt(); break;
                 case "4": CloneKontakt(); break;
+                case "5": EditKontakt(); break;
+                case "6": _cmd.Undo(); break;
                 case "0": return;
                 default: Console.WriteLine("Neplatná volba."); break;
             }
@@ -155,6 +252,31 @@ public class ConsoleUI
         }
     }
 
+    private void EditKontakt()
+    {
+        ListKontakty();
+        int index = ReadIndex($"Zadej číslo (1–{_data.Count}) k úpravě: ", 1, _data.Count) - 1;
+        var target = _data.Get(index);
+
+        Console.WriteLine($"Jméno [{target.name}] (nech prázdné pro zachování):");
+        string nameInput = Console.ReadLine();
+
+        Console.WriteLine($"Telefon [{target.phone}] (nech prázdné pro zachování):");
+        string phoneInput = Console.ReadLine();
+
+        Console.WriteLine($"E-mail [{target.email}] (nech prázdné pro zachování):");
+        string emailInput = Console.ReadLine();
+
+        var newObj = new Kontakt
+        {
+            name = string.IsNullOrWhiteSpace(nameInput) ? target.name : nameInput,
+            phone = string.IsNullOrWhiteSpace(phoneInput) ? target.phone : phoneInput,
+            email = string.IsNullOrWhiteSpace(emailInput) ? target.email : emailInput
+        };
+
+        _cmd.Execute(new KontaktEdit(_data, index, newObj));
+
+    }
     private void AddKontakt()
     {
         var k = new Kontakt
@@ -163,7 +285,8 @@ public class ConsoleUI
             phone = ReadNonEmpty("Telefon: "),
             email = ReadNonEmpty("E-mail: ")
         };
-        _data.Add(k);
+
+        _cmd.Execute(new KontaktCreate(_data, k));
         Console.WriteLine("Kontakt přidán.");
     }
 
@@ -178,9 +301,8 @@ public class ConsoleUI
         ListKontakty();
         int index = ReadIndex($"Zadej číslo (1–{_data.Count}) ke smazání: ", 1, _data.Count) - 1;
         var target = _data.Get(index);
-        // execute commandu - přesunou do konstruktoru - vytvořím všechny commandy
-        var cmd = new KontaktDelete(_data, target);
-        cmd.Execute();
+
+        _cmd.Execute(new KontaktDelete(_data, target, index));
     }
 
     private void CloneKontakt()
@@ -195,7 +317,8 @@ public class ConsoleUI
         int index = ReadIndex($"Zadej číslo (1–{_data.Count}) ke klonování: ", 1, _data.Count) - 1;
         var copy = _data.Get(index).Clone();
         copy.name = copy.name + " (kopie)";
-        _data.Add(copy);
+
+        _cmd.Execute(new KontaktCreate(_data, copy));
         Console.WriteLine("Kontakt naklonován a přidán.");
     }
 
@@ -222,8 +345,7 @@ public class ConsoleUI
     }
 }
 
-
-// Aplikace
+// Aplikace - běh
 public class Program
 {
     public static void Main(string[] args)
