@@ -122,14 +122,12 @@ public class Program
             courseCreator.createProduct("Algoritmy", "ALG101")
         };
 
-        // --- Výpis informací ---
         Console.WriteLine("=== Seznam vytvořených entit ===");
         foreach (var entity in entities)
         {
             entity.info();
         }
 
-        // --- Ukázka přihlášení studenta na kurz ---
         Console.WriteLine("\n=== Přihlašování na kurz ===");
         if (entities[0] is User student && entities[3] is Kurz kurz)
         {

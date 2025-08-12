@@ -1,1 +1,0 @@
-﻿// tady budou unit testy pro klíčové funkce systému
