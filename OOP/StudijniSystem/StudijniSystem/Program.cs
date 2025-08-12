@@ -63,6 +63,8 @@ public class Kurz : Entita
 {
     public List<Profile> users = new();
     private readonly List<ISubscriber> subscribers = new();
+    public Dictionary<int, string> timetable = new();
+    public Dictionary<User, string> evaluation = new();
 
     public Kurz(string name, string code)
         : base(name, code) { }
