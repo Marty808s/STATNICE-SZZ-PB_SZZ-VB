@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Security.Principal;
 
 // ZÁKLADNÍ TYPY
@@ -29,8 +30,14 @@ public abstract class Profile : Entita
     }
 }
 
-// PRODUKTY
-public class User : Profile
+// Observer
+public interface ISubscriber
+{
+    public void update(string? message = null);
+}
+
+// User je zároveň i samotný subscriber
+public class User : Profile, ISubscriber
 {
     public User(string name, string code, string password, string role)
         : base (name, code ,password, role) { }
@@ -39,17 +46,54 @@ public class User : Profile
     {
         Console.WriteLine($"Jsem uživatel {name}, kód: {code}");
     }
+
+    public void update(string? message = null)
+    {
+        Console.WriteLine($"{name} dostal notifikaci z kurzu: {message ?? ""}");
+    }
 }
 
+
+// Jelikož samotný kurz obsahuje i příslušné studenty (subscribery, tak z něj udělám i publishera)
+/*
+ Po přihlášení rovnou vytvářím subscribera
+ Publisher má metodu i na notifyOne podle parametru, následně notify pro včechny subscribery příslušného kurzu
+ */
 public class Kurz : Entita
 {
     public List<Profile> users = new();
+    private readonly List<ISubscriber> subscribers = new();
+
     public Kurz(string name, string code)
         : base(name, code) { }
+
+    public void subscribe(ISubscriber sub) => subscribers.Add(sub);
+    public bool unSubscribe(ISubscriber sub) => subscribers.Remove(sub);
 
     public override void info()
     {
         Console.WriteLine($"Jsem kurz {name}, kód: {code}");
+    }
+
+    public void addUser(Profile user)
+    {
+        users.Add(user);
+
+        if (user is ISubscriber sub)
+        {
+            subscribe(sub);
+        }
+
+    }
+
+    public void notify(User user, string? message = null)
+    {
+        foreach (var s in subscribers) s.update(message);
+    }
+
+    public void notifyOne(ISubscriber subscriber, string? message = null)
+    {
+        subscriber.update(message);
     }
 }
 
@@ -103,6 +147,7 @@ public class KurzCreator : Creator
     }
 }
 
+
 public class Program
 {
     public static void Main()
@@ -131,8 +176,9 @@ public class Program
         Console.WriteLine("\n=== Přihlašování na kurz ===");
         if (entities[0] is User student && entities[3] is Kurz kurz)
         {
-            kurz.users.Add(student);
-            Console.WriteLine($"{student.name} byl přidán do kurzu {kurz.name}.");
+            kurz.addUser(student);
+            kurz.notifyOne(student, "Nazdaar a vítej!");
+            //Console.WriteLine($"{student.name} byl přidán do kurzu {kurz.name}.");
         }
     }
 }
