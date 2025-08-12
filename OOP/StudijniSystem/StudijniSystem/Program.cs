@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Security.Principal;
+using System.Linq;
 
 // ZÁKLADNÍ TYPY
 public abstract class Entita
@@ -149,6 +150,54 @@ public class KurzCreator : Creator
     }
 }
 
+
+// Strategy - na kalkulace udělat testy
+public interface ICalculation<T>
+{
+    float calculation(List<T> input);
+}
+
+public class AritmeticCalc : ICalculation<float>
+{
+    public float calculation(List<float> input)
+    {
+        if (input == null || input.Count == 0)
+            throw new ArgumentException("Seznam musí obsahovat alespoň jednu hodnotu.");
+
+        return input.Average(); // spočítá průměr
+    }
+}
+
+public class WeightedAverageCalc : ICalculation<(float value, float weight)>
+{
+    public float calculation(List<(float value, float weight)> input)
+    {
+        if (input == null || input.Count == 0)
+            throw new ArgumentException("Seznam musí obsahovat alespoň jednu hodnotu.");
+
+        float sumWeighted = input.Sum(x => x.value * x.weight);
+        float sumWeights = input.Sum(x => x.weight);
+
+        if (sumWeights == 0)
+            throw new InvalidOperationException("Součet vah nesmí být nulový.");
+
+        return sumWeighted / sumWeights;
+    }
+}
+
+public class Calculator<T>
+{
+    public ICalculation<T> strategy;
+    public Calculator(ICalculation<T> calc)
+    {
+        this.strategy = calc;
+    }
+
+    public float calculate(List<T> input)
+    {
+        return strategy.calculation(input);
+    }
+}
 
 public class Program
 {
