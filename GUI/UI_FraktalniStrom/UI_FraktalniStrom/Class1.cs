@@ -1,0 +1,93 @@
+﻿using System;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows;
+
+namespace UI_FraktalniStrom
+{
+    public class FractalCanopy
+    {
+        private readonly Canvas _canvas;
+        private readonly double _angleDeg;
+        private readonly int _iterations;
+        private readonly double _coef;
+        private readonly Brush _branchBrush;
+        private readonly Brush _trunkBrush;
+        private readonly double _thickness;
+
+        public FractalCanopy(Canvas canvas, double angle, int iterations, double coef,
+                             Brush branchBrush, Brush trunkBrush, double thickness = 6)
+        {
+            _canvas = canvas;
+            _angleDeg = angle;
+            _iterations = iterations;
+            _coef = coef;
+            _branchBrush = branchBrush;
+            _trunkBrush = trunkBrush;
+            _thickness = thickness;
+        }
+
+        public void Render()
+        {
+            // kdyby rozměry ještě nebyly, zkus RenderSize
+            double w = _canvas.ActualWidth > 0 ? _canvas.ActualWidth : _canvas.RenderSize.Width;
+            double h = _canvas.ActualHeight > 0 ? _canvas.ActualHeight : _canvas.RenderSize.Height;
+            if (w <= 0 || h <= 0) return;
+
+            _canvas.Children.Clear();
+
+            // kmen: start dole uprostřed
+            Point start = new Point(w / 2.0, h - 12);
+            double trunkLen = Math.Min(w, h) * 0.25;
+            Point end = EndPoint(start, trunkLen, -90);
+
+            AddLine(start, end, _trunkBrush, _thickness);
+
+            // větvení
+            DrawBranch(end, trunkLen * _coef, -90, _iterations, _thickness * 0.8);
+        }
+
+        private void DrawBranch(Point start, double length, double angleDeg, int depth, double thickness)
+        {
+            if (depth <= 0 || length < 1) return;
+
+            // levá větev
+            double aL = angleDeg - _angleDeg;
+            Point endL = EndPoint(start, length, aL);
+            AddLine(start, endL, _branchBrush, thickness);
+            DrawBranch(endL, length * _coef, aL, depth - 1, Math.Max(1.0, thickness * 0.75));
+
+            // pravá větev
+            double aR = angleDeg + _angleDeg;
+            Point endR = EndPoint(start, length, aR);
+            AddLine(start, endR, _branchBrush, thickness);
+            DrawBranch(endR, length * _coef, aR, depth - 1, Math.Max(1.0, thickness * 0.75));
+        }
+
+        private static Point EndPoint(Point start, double length, double angleDeg)
+        {
+            double rad = angleDeg * Math.PI / 180.0;
+            return new Point(
+                start.X + Math.Cos(rad) * length,
+                start.Y + Math.Sin(rad) * length
+            );
+        }
+
+        private void AddLine(Point a, Point b, Brush brush, double thickness)
+        {
+            var line = new Line
+            {
+                X1 = a.X,
+                Y1 = a.Y,
+                X2 = b.X,
+                Y2 = b.Y,
+                Stroke = brush,
+                StrokeThickness = thickness,
+                StrokeStartLineCap = PenLineCap.Round,
+                StrokeEndLineCap = PenLineCap.Round
+            };
+            _canvas.Children.Add(line);
+        }
+    }
+}
