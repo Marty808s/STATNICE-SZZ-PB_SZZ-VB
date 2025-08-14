@@ -1,0 +1,2 @@
+def createExperiment():
+    print("Vytvářím..")
