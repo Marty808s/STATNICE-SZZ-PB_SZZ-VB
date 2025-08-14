@@ -74,7 +74,12 @@ namespace UI_FraktalniStrom
             while (stack.Count > 0)
             {
                 ct.ThrowIfCancellationRequested();
-                pauseGate?.Wait(ct); // pauza
+
+                if (pauseGate != null && !pauseGate.IsSet)
+                {
+                    await Task.Delay(30, ct); // UI mezitím žije
+                    continue;
+                }
 
                 var (s, len, ang, d, t) = stack.Pop();
                 if (d <= 0 || len < 1) continue;
@@ -154,5 +159,6 @@ namespace UI_FraktalniStrom
                 StrokeEndLineCap = PenLineCap.Round
             });
         }
+
     }
 }

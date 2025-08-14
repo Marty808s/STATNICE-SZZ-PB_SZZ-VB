@@ -101,13 +101,6 @@ namespace UI_FraktalniStrom
             RestartRender(); // ← proběhne jen po Start
         }
 
-        private async void BTN_Start_Click(object sender, RoutedEventArgs e)
-        {
-            _started = true;            // ← povolíme renderování změn
-            await StartRenderAsync();   // a spustíme první vykreslení
-        }
-
-
         private void RestartRender()
         {
             if (!_started) return;    
@@ -136,6 +129,48 @@ namespace UI_FraktalniStrom
                 _cts.Dispose();
                 _cts = null;
             }
+        }
+
+        private async void BTN_Start_Click(object sender, RoutedEventArgs e)
+        {
+            if (_cts != null) return;          // už běží -> nic nespouštěj podruhé
+
+            _started = true;                   // uživatel spustil rendr
+            BTN_Start.IsEnabled = false;       // Start během běhu vypnout
+            BTN_Pozastavit.IsEnabled = true;
+            BTN_Pokracovat.IsEnabled = false;
+            BTN_Prerusit.IsEnabled = true;
+
+            await StartRenderAsync();          // spustím první vykreslení
+
+            BTN_Start.IsEnabled = true;
+            BTN_Pozastavit.IsEnabled = false;
+            BTN_Pokracovat.IsEnabled = false;
+            BTN_Prerusit.IsEnabled = false;
+        }
+
+
+        private void BTN_Pozastavit_Click(object sender, RoutedEventArgs e)
+        {
+            _pauseGate.Reset();              // PAUSE
+            BTN_Pozastavit.IsEnabled = false;
+            BTN_Pokracovat.IsEnabled = true;
+        }
+
+        private void BTN_Pokracovat_Click(object sender, RoutedEventArgs e)
+        {
+            _pauseGate.Set();                // RESUME
+            BTN_Pozastavit.IsEnabled = true;
+            BTN_Pokracovat.IsEnabled = false;
+        }
+
+        private void BTN_Prerusit_Click(object sender, RoutedEventArgs e)
+        {
+            _cts?.Cancel();                  // STOP
+            _started = false;
+            BTN_Pozastavit.IsEnabled = true;
+            BTN_Pokracovat.IsEnabled = false;
+            MyCanvas.Children.Clear();
         }
     }
 }

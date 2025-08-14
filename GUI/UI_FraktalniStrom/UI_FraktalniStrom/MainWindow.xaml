@@ -20,9 +20,9 @@
                     <ColumnDefinition Width="47*"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="BTN_Start" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="138" Background="#FFA5F7D7" Click="BTN_Start_Click" Height="20" Margin="172,0,0,0" Grid.ColumnSpan="2"/>
-                <Button x:Name="BTN_Pozastavit" Content="Pozastavit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" Background="#FFE4EFA0" Height="20" Margin="10,0,0,0"/>
-                <Button x:Name="BTN_Prerusit" Content="Přerušit" HorizontalAlignment="Left" Margin="36,0,0,0" VerticalAlignment="Top" Width="138" Background="#FFFB8A70" Height="20" Grid.ColumnSpan="2" Grid.Column="1"/>
-                <Button x:Name="BTN_Pokracovat" Content="Pokračovat" HorizontalAlignment="Left" Margin="10,27,0,0" Width="463" Background="#FFEFC68A" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="3"/>
+                <Button x:Name="BTN_Pozastavit" Content="Pozastavit" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" Background="#FFE4EFA0" Height="20" Margin="10,0,0,0" Click="BTN_Pozastavit_Click"/>
+                <Button x:Name="BTN_Prerusit" Content="Přerušit" HorizontalAlignment="Left" Margin="36,0,0,0" VerticalAlignment="Top" Width="138" Background="#FFFB8A70" Height="20" Grid.ColumnSpan="2" Grid.Column="1" Click="BTN_Prerusit_Click"/>
+                <Button x:Name="BTN_Pokracovat" Content="Pokračovat" HorizontalAlignment="Left" Margin="10,27,0,0" Width="463" Background="#FFEFC68A" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="3" Click="BTN_Pokracovat_Click"/>
             </Grid>
         </Grid>
         <ComboBox x:Name="CB_Barva" HorizontalAlignment="Left" Margin="23,91,0,0" VerticalAlignment="Top" Width="235" Grid.ColumnSpan="2" Height="22"/>
