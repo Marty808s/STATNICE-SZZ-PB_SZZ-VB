@@ -2,6 +2,7 @@ from ui import *
 from fun import *
 import tkinter as tk
 from tkinter import ttk
+from detail_experiment import *
 
 def landing():
     root = tk.Tk()
@@ -80,22 +81,7 @@ def landing():
     desc_label = ttk.Label(detail, textvariable=desc_var, anchor="w", justify="left", wraplength=520)
     desc_label.grid(row=2, column=1, sticky="nwe", padx=5, pady=4)
 
-    def detail_selected_page(exp_id, title="Nové okno", size="600x400"):
-        # vytvoří nové okno
-        new_win = tk.Toplevel()
-        new_win.title(title)
-        new_win.geometry(size)
-
-        # příklad obsahu
-        frame = ttk.Frame(new_win, padding=10)
-        frame.pack(fill="both", expand=True)
-
-        ttk.Label(frame, text=f"Tady je {title} | {exp_id.get()}", font=("Arial", 14)).pack(pady=10)
-        ttk.Button(frame, text="Zavřít", command=new_win.destroy).pack(pady=5)
-
-        return new_win
-
-    make_button(detail, text="Zobrazit model",
+    make_button(detail, text="Zobrazit detail",
         command=lambda: detail_selected_page(id_var, f"Detail experimentu s id {id_var.get()}","1200x600" ),
         row=1,
         col=1
