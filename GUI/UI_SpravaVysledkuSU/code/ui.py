@@ -1,4 +1,3 @@
-from db import get_connection
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -16,3 +15,14 @@ def make_treeview(parent, columns, row=0, col=0, colspan=1, rowspan=1, expand=Tr
     tree.grid(row=row, column=col, columnspan=colspan, rowspan=rowspan,
               sticky="nsew", padx=5, pady=5)
     return tree
+def populate_tree(tree, rows, columns):
+    # clear
+    for item in tree.get_children():
+        tree.delete(item)
+    for r in rows:
+        if hasattr(r, "_mapping"):          # SQLAlchemy Row
+            m = r._mapping
+            values = [m.get(c) for c in columns]
+        else:                                # dict
+            values = [r.get(c) for c in columns]
+        tree.insert("", "end", values=values)
