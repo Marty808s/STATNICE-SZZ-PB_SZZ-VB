@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -8,77 +10,83 @@ namespace UI_FraktalniStrom
     {
         private FractalCanopy _drawer;
         private CancellationTokenSource _cts;
-        private readonly ManualResetEventSlim _pauseGate = new(initialState: true); // true = běží
-        private bool _isRunning;
-        private bool _isPaused;
+        private readonly ManualResetEventSlim _pauseGate = new(true);
+        private bool _started; // <-- přidaná závlačka
 
         public MainWindow()
         {
             InitializeComponent();
 
-            Loaded += (_, __) =>
+            Loaded += async (_, __) =>
             {
-                // init hodnot - combobox barev
+                // --- barvy ---
                 string[] colors = { "White", "Red", "Green", "Blue" };
                 CB_Barva.ItemsSource = colors;
                 CB_Barva.SelectedIndex = 0;
-
-                // Slider - iterace
-                // minimální hodnota
-                SL_Iterace.Minimum = 1;
-                // maximální hodnota
-                SL_Iterace.Maximum = 2000;
-                // počáteční nastavení (aktuální hodnota)
-                SL_Iterace.Value = 20;
-                // krok posuvu (volitelné, default je 1)
-                SL_Iterace.TickFrequency = 10;
-
-                // Slider - úhel
-                // minimální hodnota
-                SL_Uhel.Minimum = 1;
-                // maximální hodnota
-                SL_Uhel.Maximum = 360;
-                // počáteční nastavení (aktuální hodnota)
-                SL_Iterace.Value = 40;
-                // krok posuvu (volitelné, default je 1)
-                SL_Iterace.TickFrequency = 10;
-
-                // Slider - koeficient
-                // minimální hodnota
-                SL_Koeficient.Minimum = 1;
-                // maximální hodnota
-                SL_Koeficient.Maximum = 20;
-                // počáteční nastavení (aktuální hodnota)
-                SL_Koeficient.Value = 5;
-                // krok posuvu (volitelné, default je 1)
-                SL_Koeficient.TickFrequency = 1;
-
-                // přidám všem sliderům handler na ValueChanged - tím změním hodnoty fraktálu a zobrazím hodnoty níže
-                foreach (var child in LogicalTreeHelper.GetChildren(SliderGrid)) // pokud jsou v Gridu
+                CB_Barva.SelectionChanged += (_, __2) =>
                 {
-                    if (child is Slider slider)
-                        slider.ValueChanged += Slider_ValueChanged;
-                }
+                    if (_drawer == null) return;
+                    var name = CB_Barva.SelectedItem as string;
+                    if (string.IsNullOrWhiteSpace(name)) return;
+                    var brush = (Brush)new BrushConverter().ConvertFromString(name);
+                    _drawer.BranchBrush = brush;
+                    _drawer.TrunkBrush = brush;
+                    RestartRender(); // ← spustí se jen když _started == true
+                };
 
+                // --- Slidery ---
+                SL_Iterace.Minimum = 1;
+                SL_Iterace.Maximum = 100;
+                SL_Iterace.Value = 10;
+                SL_Iterace.TickFrequency = 10;
+                SL_Iterace.IsSnapToTickEnabled = true;
+
+                SL_Uhel.Minimum = 0;
+                SL_Uhel.Maximum = 90;
+                SL_Uhel.Value = 40;
+                SL_Uhel.TickFrequency = 1;
+                SL_Uhel.IsSnapToTickEnabled = true;
+
+                SL_Koeficient.Minimum = 0.10;
+                SL_Koeficient.Maximum = 0.70;
+                SL_Koeficient.Value = 0.20;
+                SL_Koeficient.TickFrequency = 0.1;
+                SL_Koeficient.IsSnapToTickEnabled = true;
+
+                foreach (var child in LogicalTreeHelper.GetChildren(SliderGrid))
+                    if (child is Slider s) s.ValueChanged += Slider_ValueChanged;
+
+                // --- kreslíř (jen vytvořit, nespouštět) ---
+                var brush0 = Brushes.White;
                 _drawer = new FractalCanopy(
                     canvas: MyCanvas,
-                    angle: 30,          // úhel rozvětvení (stupně)
-                    iterations: 10,     // hloubka rekurze
-                    coef: 0.70,         // zkrácení větví
-                    branchBrush: Brushes.White,
-                    trunkBrush: Brushes.White,
+                    angle: SL_Uhel.Value,
+                    iterations: (int)SL_Iterace.Value,
+                    coef: SL_Koeficient.Value,
+                    branchBrush: brush0,
+                    trunkBrush: brush0,
                     thickness: 8,
                     name: TB_Nazev?.Text ?? string.Empty
                 );
 
-                // překresluj při změně velikosti plátna
-                MyCanvas.SizeChanged += (_, __2) => _drawer?.Render();
-
-                _drawer.Render();
+                //MyCanvas.SizeChanged += (_, __2) => RestartRender();
+                UpdateHud();
             };
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_drawer == null) return;
+
+            _drawer.Iterations = (int)SL_Iterace.Value;
+            _drawer.Angle = SL_Uhel.Value;
+            _drawer.Coef = SL_Koeficient.Value;
+
+            UpdateHud();
+            //RestartRender(); // ← proběhne jen po Start
+        }
+
+        private void UpdateHud()
         {
             TB_Hodnoty.Text =
                 $"Iterace: {SL_Iterace.Value:0} | " +
@@ -89,18 +97,45 @@ namespace UI_FraktalniStrom
         private void TB_Nazev_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (_drawer == null) return;
-            _drawer._name = TB_Nazev.Text;  // použijeme property
-            _drawer.Render();
+            _drawer.Name = TB_Nazev.Text;
+            RestartRender(); // ← proběhne jen po Start
         }
 
-        private void BTN_Start_Click(object sender, RoutedEventArgs e)
+        private async void BTN_Start_Click(object sender, RoutedEventArgs e)
         {
-            if (_isRunning) return;                  // už běží
-            _cts = new CancellationTokenSource();
-            _pauseGate.Set();                        // povolit průchod
-            _isRunning = true;
-            _isPaused = false;
+            _started = true;            // ← povolíme renderování změn
+            await StartRenderAsync();   // a spustíme první vykreslení
         }
 
+
+        private void RestartRender()
+        {
+            if (!_started) return;    
+            _ = StartRenderAsync();
+        }
+
+        private async Task StartRenderAsync()
+        {
+            if (_cts != null)
+            {
+                _cts.Cancel();
+                await Task.Yield();
+            }
+
+            _cts = new CancellationTokenSource();
+            try
+            {
+                await _drawer.RenderAsync(_cts.Token, _pauseGate);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            finally
+            {
+                _cts.Dispose();
+                _cts = null;
+            }
+        }
     }
 }
