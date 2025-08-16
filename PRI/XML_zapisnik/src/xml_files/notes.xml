@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" xsi:noNamespaceSchemaLocation="notes.xsd">?>
+<notes>
+  <note>
+    <title>Uklidit záchod</title>
+    <category>Práce</category>
+    <description>Tohle je popis..</description>
+    <state>Zahájené</state>
+  </note>
+</notes>

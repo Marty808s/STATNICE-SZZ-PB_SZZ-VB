@@ -15,6 +15,7 @@ include INC . '/nav.php';
     $registerPassword = $_POST['register_password'] ?? '';
     $registerPasswordAgain = $_POST['register_password_again'] ?? '';
 
+
     # Zpracování ze strany serveru
     $errors = [];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -25,11 +26,29 @@ include INC . '/nav.php';
             if ($loginPassword === '') {
                 $errors[] = 'Zadejte heslo.';
             }
-            // doplnit ověření pomocí xml
+            // ověření proti XML: vyhledat uživatele a ověřit hash hesla
             if (empty($errors)) {
-                setJmeno($loginUsername);
-                header('Location: /index.php');
-                exit;
+                $foundUser = null;
+                foreach ($dom_users->getElementsByTagName('user') as $userEl) {
+                    $nameEl = $userEl->getElementsByTagName('username')->item(0);
+                    if ($nameEl && $nameEl->textContent === $loginUsername) {
+                        $foundUser = $userEl;
+                        break;
+                    }
+                }
+                if (!$foundUser) {
+                    $errors[] = 'Uživatel neexistuje.';
+                } else {
+                    $hashEl = $foundUser->getElementsByTagName('password')->item(0);
+                    $storedHash = $hashEl ? $hashEl->textContent : '';
+                    if ($storedHash === '' || !password_verify($loginPassword, $storedHash)) {
+                        $errors[] = 'Nesprávné přihlašovací údaje.';
+                    } else {
+                        setJmeno($loginUsername);
+                        echo "<script>setTimeout(function() { window.location.href = '/'; }, 1000);</script>";
+                        exit;
+                    }
+                }
             }
         } else {
             if ($registerUsername === '') {
@@ -44,11 +63,41 @@ include INC . '/nav.php';
             if ($registerPassword !== '' && $registerPasswordAgain !== '' && $registerPassword !== $registerPasswordAgain) {
                 $errors[] = 'Hesla se neshodují.';
             }
-            // implementace registrace v xml
+            // registrace do XML: kontrola duplicity, uložení hashe
             if (empty($errors)) {
-                setJmeno($registerUsername);
-                header('Location: /index.php');
-                exit;
+                $exists = false;
+                foreach ($dom_users->getElementsByTagName('user') as $userEl) {
+                    $nameEl = $userEl->getElementsByTagName('username')->item(0);
+                    if ($nameEl && $nameEl->textContent === $registerUsername) {
+                        $exists = true;
+                        break;
+                    }
+                }
+                if ($exists) {
+                    $errors[] = 'Uživatel již existuje.';
+                } else {
+                    // vytvoření uzlu <user>
+                    $newUser = $dom_users->createElement('user');
+                    $usernameEl = $dom_users->createElement('username', $registerUsername);
+                    $passwordHash = password_hash($registerPassword, PASSWORD_DEFAULT);
+                    $passwordEl = $dom_users->createElement('password', $passwordHash);
+                    $createdAtEl = $dom_users->createElement('created_at', date(DATE_ATOM));
+                    $newUser->appendChild($usernameEl);
+                    $newUser->appendChild($passwordEl);
+                    $newUser->appendChild($createdAtEl);
+                    // připojit k <users>
+                    if ($dom_users->documentElement === null) {
+                        $root = $dom_users->createElement('users');
+                        $dom_users->appendChild($root);
+                    }
+                    $dom_users->documentElement->appendChild($newUser);
+                    $dom_users->formatOutput = true;
+                    $dom_users->save(XML . '/users.xml');
+
+                    setJmeno($registerUsername);
+                    echo "<script>setTimeout(function() { window.location.href = '/'; }, 1000);</script>";
+                    exit;
+                }
             }
         }
     }
