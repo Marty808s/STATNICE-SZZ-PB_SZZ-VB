@@ -31,3 +31,11 @@ function getName(): string
 {
     return $_SESSION['jmeno'];
 }
+
+function requireLogin(): void
+{
+    if (!isUser()) {
+        header('Location: /login.php');
+        exit;
+    }
+}
