@@ -44,7 +44,7 @@ include INC . '/nav.php';
                     if ($storedHash === '' || !password_verify($loginPassword, $storedHash)) {
                         $errors[] = 'Nesprávné přihlašovací údaje.';
                     } else {
-                        setJmeno($loginUsername);
+                        setUser($loginUsername);
                         echo "<script>setTimeout(function() { window.location.href = '/'; }, 1000);</script>";
                         exit;
                     }
@@ -82,9 +82,15 @@ include INC . '/nav.php';
                     $passwordHash = password_hash($registerPassword, PASSWORD_DEFAULT);
                     $passwordEl = $dom_users->createElement('password', $passwordHash);
                     $createdAtEl = $dom_users->createElement('created_at', date(DATE_ATOM));
+                    
+                    $totalAffiliates = $dom_users->getElementsByTagName('user')->length;
+                    $userId = $dom_users->createElement('id', $totalAffiliates + 1);
+                    
                     $newUser->appendChild($usernameEl);
                     $newUser->appendChild($passwordEl);
                     $newUser->appendChild($createdAtEl);
+                    $newUser->appendChild($userId);
+
                     // připojit k <users>
                     if ($dom_users->documentElement === null) {
                         $root = $dom_users->createElement('users');
@@ -94,7 +100,7 @@ include INC . '/nav.php';
                     $dom_users->formatOutput = true;
                     $dom_users->save(XML . '/users.xml');
 
-                    setJmeno($registerUsername);
+                    setUser($registerUsername);
                     echo "<script>setTimeout(function() { window.location.href = '/'; }, 1000);</script>";
                     exit;
                 }

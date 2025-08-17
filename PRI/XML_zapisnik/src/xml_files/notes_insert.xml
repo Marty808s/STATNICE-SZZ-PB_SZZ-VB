@@ -1,103 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <notes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="notes.xsd">
-  
   <note>
-    <id>4</id>
-    <title>Napsat týdenní report</title>
-    <category>Práce</category>
-    <description>Shrnutí úkolů, blokérů a plánů na příští týden.</description>
-    <state>Nezahájené</state>
-  </note>
-  
-  
-<note>
-    <id>3</id>
-    <title>Zavolat rodičům</title>
-    <category>Osobní</category>
-    <description>Domluvit návštěvu na víkend a přivézt koláč.</description>
-    <state>Nezahájené</state>
-  </note><note>
-    <id>4</id>
-    <title>Napsat týdenní report</title>
-    <category>Práce</category>
-    <description>Shrnutí úkolů, blokérů a plánů na příští týden.</description>
-    <state>Nezahájené</state>
-  </note><note>
-    <id>6</id>
-    <title>Zavolat rodičům</title>
-    <category>Osobní</category>
-    <description>Domluvit návštěvu na víkend a přivézt koláč.</description>
-    <state>Nezahájené</state>
-  </note><note>
-    <id>3</id>
-    <title>Zavolat rodičům</title>
-    <category>Osobní</category>
-    <description>Domluvit návštěvu na víkend a přivézt koláč.</description>
-    <state>Nezahájené</state>
-  </note><note><id>7</id><title>Zde název</title><category>Práce</category><description>Zde Popis</description><state>Zahájené</state></note><note><id>8</id><title>Zde název2</title><category>Škola</category><description>Zde Popis2</description><state>Dokončené</state></note><note>
     <id>10</id>
     <title>Napsat týdenní report</title>
     <category>Práce</category>
     <description>Shrnutí úkolů, blokérů a plánů na příští týden.</description>
     <state>Nezahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>11</id>
     <title>Procvičit integrály</title>
     <category>Škola</category>
     <description>Vyřešit 5 příkladů z kapitoly integrální počet.</description>
     <state>Zahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>12</id>
     <title>Úklid pracovního stolu</title>
     <category>Osobní</category>
     <description>Protřídit dokumenty, otřít prach, vyhodit nepotřebné věci.</description>
     <state>Dokončené</state>
-  </note><note>
+  </note>
+  <note>
     <id>13</id>
     <title>Refaktorovat modul přihlášení</title>
     <category>Práce</category>
     <description>Oddělit validaci a přidat logování chyb.</description>
     <state>Zahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>14</id>
     <title>Přečíst kapitolu o XSLT</title>
     <category>Škola</category>
     <description>Prostudovat transformace a napsat krátké shrnutí.</description>
     <state>Nezahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>15</id>
     <title>Jít běhat</title>
     <category>Osobní</category>
     <description>3 km lehký běh, protažení po doběhu.</description>
     <state>Nezahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>16</id>
     <title>Dokončit prezentaci</title>
     <category>Práce</category>
     <description>Doplnit grafy a zdroje, poslat ke kontrole.</description>
     <state>Zahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>17</id>
     <title>Příprava na test</title>
     <category>Škola</category>
     <description>Opakovat otázky 1–10, sepsat tahák.</description>
     <state>Dokončené</state>
-  </note><note>
+  </note>
+  <note>
     <id>18</id>
     <title>Nákup potravin</title>
     <category>Osobní</category>
     <description>Chléb, mléko, zelenina, ovoce, káva.</description>
     <state>Zahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>19</id>
     <title>Naplánovat sprint</title>
     <category>Práce</category>
     <description>Definovat cíle sprintu, odhad pracnosti, rozdělit úkoly.</description>
     <state>Nezahájené</state>
-  </note><note>
+  </note>
+  <note>
     <id>20</id>
     <title>Konzultace s vyučujícím</title>
     <category>Škola</category>
     <description>Probrat projekt a získat zpětnou vazbu.</description>
     <state>Zahájené</state>
-  </note></notes>
+  </note>
+</notes>

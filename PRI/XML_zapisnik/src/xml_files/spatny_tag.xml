@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="notes.xsd">
+  <Rote>>
+    <title>Zavolat rodičům</title>
+    <category>Osobní</category>
+    <description>Domluvit návštěvu na víkend a přivézt koláč.</description>
+    <state>Nezahájené</state>
+  </note>
+</notes>

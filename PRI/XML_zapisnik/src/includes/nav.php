@@ -20,8 +20,8 @@ $userName = isUser() ? getName() : '';
                    Úkoly
                 </a>
 
-                <a class="px-3 py-2 rounded hover:bg-blue-300" href="#">
-                   Item 1
+                <a class="px-3 py-2 rounded hover:bg-blue-300" href="create.php">
+                   Vytvořit
                 </a>
 
                 <a class="px-3 py-2 rounded hover:bg-blue-300" href="logout.php">

@@ -8,12 +8,18 @@
         <xs:element ref="note" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
+    <!-- Unikátní omezení: každé <note>/<id> musí být v rámci <notes> jedinečné -->
+    <xs:unique name="uniqueNoteId">
+      <xs:selector xpath="note"/>
+      <xs:field xpath="id"/>
+    </xs:unique>
   </xs:element>
 
   <!-- Jedna poznámka -->
   <xs:element name="note">
     <xs:complexType>
       <xs:sequence>
+        <xs:element name="id" type="xs:int"/>
         <xs:element name="title" type="xs:string"/>
         <xs:element name="category" type="categoryType" default="Osobní"/>
         <xs:element name="description" type="xs:string"/>
