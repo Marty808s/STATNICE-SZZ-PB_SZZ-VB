@@ -3,7 +3,7 @@
   
   <note>
     <id>4</id>
-    <title>Napsat týdenní report</title>
+    <title>Napsat týdenní reportt</title>
     <category>Práce</category>
     <description>Shrnutí úkolů, blokérů a plánů na příští týden.</description>
     <state>Nezahájené</state>
@@ -87,17 +87,5 @@
     <title>Nákup potravin</title>
     <category>Osobní</category>
     <description>Chléb, mléko, zelenina, ovoce, káva.</description>
-    <state>Zahájené</state>
-  </note><note>
-    <id>19</id>
-    <title>Naplánovat sprint</title>
-    <category>Práce</category>
-    <description>Definovat cíle sprintu, odhad pracnosti, rozdělit úkoly.</description>
-    <state>Nezahájené</state>
-  </note><note>
-    <id>20</id>
-    <title>Konzultace s vyučujícím</title>
-    <category>Škola</category>
-    <description>Probrat projekt a získat zpětnou vazbu.</description>
     <state>Zahájené</state>
   </note></notes>
