@@ -38,12 +38,12 @@ CREATE TABLE customer (
     PRIMARY KEY (id)
 );
 
+--- přidat total cenu - agregace?
 CREATE TABLE `order` (
     id INT NOT NULL AUTO_INCREMENT,
     customer_id INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE
-    --- přidat total cenu - agregace?
 );
 
 CREATE TABLE order_product (
@@ -63,6 +63,10 @@ CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
-  role ENUM('admin','skladnik') NOT NULL,
+  `role` ENUM('admin','skladnik') NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO users (username, password_hash, `role`)
+VALUES ('admin', 'admin', 'admin'),
+       ('skladnik', 'skladnik', 'skladnik');

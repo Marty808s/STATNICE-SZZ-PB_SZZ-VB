@@ -3,12 +3,12 @@ define('INC', __DIR__ . '/includes');
 define('DB', __DIR__ . '/db');
 define('PHP', __DIR__ . '/php');
 define('AST', __DIR__ . '/assets');
-require_once DB . '/db.php';
 
 session_start();
 
-//předělat podle role
-//$conn = getConnection();
+require_once DB . '/db.php';
+
+
 
 // pomocné funkce
 function requireLogin(): void
@@ -37,6 +37,27 @@ function setUser(string $jmeno = '', string $role ='') {
 function getName(): string
 {
     return $_SESSION['jmeno'];
+}
+
+
+function isSkladnik(): bool
+{
+    if (isset($_SESSION['role'])) {
+        return $_SESSION['role'] == "skladnik";
+    } 
+    else {
+        return false;
+    }
+}
+
+function isAdmin(): bool
+{
+    if (isset($_SESSION['role'])) {
+        return $_SESSION['role'] == "admin";
+    } 
+    else {
+        return false;
+    }
 }
 
 function logout(): bool
