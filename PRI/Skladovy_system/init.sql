@@ -30,8 +30,6 @@ CREATE TABLE product_resource (
     PRIMARY KEY (id)
 );
 
-
-
 CREATE TABLE customer (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -45,6 +43,7 @@ CREATE TABLE `order` (
     customer_id INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE
+    --- přidat total cenu - agregace?
 );
 
 CREATE TABLE order_product (
@@ -58,4 +57,12 @@ CREATE TABLE order_product (
     PRIMARY KEY (id),
     FOREIGN KEY (order_id) REFERENCES `order`(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+);
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('admin','skladnik') NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
