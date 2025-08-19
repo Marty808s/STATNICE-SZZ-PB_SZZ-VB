@@ -3,7 +3,7 @@ import Container from "@core/Container/Container";
 import Paragraph from "@components/core/Text/Paragraph";
 import Button from "@core/Button/Button";
 
-export default function TextField({id, property, label, placeholder, icon = false, required = false, value, onChange, type = "text", onIconClick, disabled = false}) {
+export default function TextField({id, name, property, label, placeholder, icon = false, required = false, value, onChange, type = "text", onIconClick, disabled = false}) {
     
     const [inputValue, setInputValue] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +39,8 @@ export default function TextField({id, property, label, placeholder, icon = fals
             <Container property="relative">
                 <input
                     type={type === "password" ? (showPassword ? "text" : "password") : type}
-                    id={id} 
+                    id={id}
+                    name={name || id}
                     className={inputClass}
                     placeholder={placeholder || ""} 
                     required={required}

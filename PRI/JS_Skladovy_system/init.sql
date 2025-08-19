@@ -1,3 +1,7 @@
+USE skladovy_system;
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER DATABASE skladovy_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 CREATE TABLE product (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE NOT NULL,
@@ -38,7 +42,6 @@ CREATE TABLE customer (
     PRIMARY KEY (id)
 );
 
--- přidat total cenu - agregace?
 CREATE TABLE `order` (
     id INT NOT NULL AUTO_INCREMENT,
     customer_id INT NOT NULL,
@@ -59,6 +62,7 @@ CREATE TABLE order_product (
     FOREIGN KEY (order_id) REFERENCES `order`(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -177,26 +181,32 @@ VALUES
 
 -- SKLADNÍK
 -- 1) Vytvoření role
-CREATE ROLE IF NOT EXISTS 'skladnik';
+DROP ROLE IF EXISTS 'skladnik_role';
+CREATE ROLE 'skladnik_role';
 
 -- 2) Čtecí práva (kromě tabulky users)
-GRANT SELECT ON skladovy_system.* TO 'skladnik';
-REVOKE SELECT ON skladovy_system.users FROM 'skladnik';
+GRANT SELECT ON skladovy_system.* TO 'skladnik_role';
+REVOKE SELECT ON skladovy_system.users FROM 'skladnik_role';
 
 -- 3) Práce s objednávkami a skladem
-GRANT INSERT, UPDATE ON skladovy_system.order_product TO 'skladnik';
-GRANT UPDATE (in_stock) ON skladovy_system.product TO 'skladnik';
-GRANT UPDATE (win_stock) ON skladovy_system.resource TO 'skladnik';
+GRANT INSERT, UPDATE ON skladovy_system.order_product TO 'skladnik_role';
+GRANT UPDATE (in_stock) ON skladovy_system.product TO 'skladnik_role';
+GRANT UPDATE (win_stock) ON skladovy_system.resource TO 'skladnik_role';
 
 -- 4) Uživatelský účet a přiřazení role + default aktivace
-CREATE USER IF NOT EXISTS 'skladnik'@'%' IDENTIFIED BY 'skladnik';
-GRANT 'skladnik' TO 'skladnik'@'%';
+DROP USER IF EXISTS 'skladnik'@'%';
+CREATE USER 'skladnik'@'%' IDENTIFIED BY 'skladnik';
+GRANT 'skladnik_role' TO 'skladnik'@'%';
+SET DEFAULT ROLE 'skladnik_role' TO 'skladnik'@'%';
 
 -- SPRÁVCE
 -- 1) Vytvoření role
-CREATE ROLE IF NOT EXISTS 'spravce';
-GRANT ALL ON skladovy_system.* TO 'spravce';
+DROP ROLE IF EXISTS 'spravce_role';
+CREATE ROLE 'spravce_role';
+GRANT ALL ON skladovy_system.* TO 'spravce_role';
 
 -- 2) Uživatelský účet a přiřazení role + default aktivace
-CREATE USER IF NOT EXISTS 'spravce'@'%' IDENTIFIED BY 'spravce';
-GRANT 'spravce' TO 'spravce'@'%';
+DROP USER IF EXISTS 'spravce'@'%';
+CREATE USER 'spravce'@'%' IDENTIFIED BY 'spravce';
+GRANT 'spravce_role' TO 'spravce'@'%';
+SET DEFAULT ROLE 'spravce_role' TO 'spravce'@'%';

@@ -6,7 +6,7 @@ import { RxCross1, RxCheck } from "react-icons/rx";
 import { FaAngleDown, FaAngleUp, FaRegFileAlt, FaLock, FaUser, FaArrowLeft, FaSave, FaDownload, FaUpload, FaCalendarAlt } from "react-icons/fa";
 import { MdOutlineManageAccounts, MdPersonOutline  } from "react-icons/md";
 
-export default function Button({id, children, text, property, onClick, textSize = "base", hover=true ,pointer = true, variant = "blue", buttonSize = "big", noVariant = false, icon = null, iconSize = "14", iconColor = "text-white", disabled = false }) {
+export default function Button({id, children, text, property, onClick, textSize = "base", hover=true ,pointer = true, variant = "blue", buttonSize = "big", noVariant = false, icon = null, iconSize = "14", iconColor = "text-white", disabled = false, type = "button" }) {
 
     const baseClassBig = "px-4 py-2 rounded-lg transition-colors duration-200";
     const baseClassSmall = "px-2 py-1 rounded-lg transition-colors duration-200";
@@ -33,7 +33,7 @@ export default function Button({id, children, text, property, onClick, textSize 
         upload: <FaUpload size={iconSize} className={iconColor} />,
         save: <FaSave  size={iconSize} className={iconColor} />,
         manage: <MdOutlineManageAccounts size={iconSize} className={iconColor} />,
-        doc: <FaRegFileAlt size={"19"} className={iconColor} />
+        doc: <FaRegFileAlt size={"14"} className={iconColor} />
 
 
     }
@@ -70,7 +70,7 @@ export default function Button({id, children, text, property, onClick, textSize 
                 ${icon && baseIconLayout}
             `}
             onClick={onClick}
-            type="button"
+            type={type}
         >
             {icon && icons[icon]}
             {baseText || children}

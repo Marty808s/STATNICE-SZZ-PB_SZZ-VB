@@ -10,6 +10,9 @@ module.exports = {
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@context': path.resolve(__dirname, 'src/context'),
       '@api': path.resolve(__dirname, 'src/api'),
+      '@services': path.resolve(__dirname, 'src/services'),
+      '@auth': path.resolve(__dirname, 'src/services/auth'),
+      '@form': path.resolve(__dirname, 'src/components/core/Form'),
 
     }
   },
