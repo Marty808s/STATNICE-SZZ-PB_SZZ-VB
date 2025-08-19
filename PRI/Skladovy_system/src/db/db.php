@@ -14,10 +14,10 @@ function getRootConnection(): mysqli {
   return new mysqli('db','root','root','skladovy_system', 3306);
 }
 
-// tohle v případě, že to řeším i přes db - NENÍ MŮJ PŘÍPAD
+// tohle v případě, že to řeším i přes db
 function getRoleConnection(string $role): mysqli {
-  if ($role === 'admin') return new mysqli('db','admin_user','admin_pass','skladovy_system', 3306);
-  return new mysqli('db','worker_user','worker_pass','skladovy_system', 3306);
+  if ($role === 'spravce') return new mysqli('db','spravce','spravce','skladovy_system', 3306);
+  return new mysqli('db','skladnik','skladnik','skladovy_system', 3306);
 }
 
 function dbQuery($sql, $params = []) {

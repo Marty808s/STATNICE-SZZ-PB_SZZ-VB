@@ -50,10 +50,10 @@ function isSkladnik(): bool
     }
 }
 
-function isAdmin(): bool
+function isSpravce(): bool
 {
     if (isset($_SESSION['role'])) {
-        return $_SESSION['role'] == "admin";
+        return $_SESSION['role'] == "spravce";
     } 
     else {
         return false;
