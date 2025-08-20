@@ -16,7 +16,10 @@ export default function PopUpCon({
     onRejectText = "Ne", 
     variant = "gray",
     useCustomContainer = false,
-    customContainer = null
+    customContainer = null,
+    isEditMode = false,
+    onSave = null,
+    onCancel = null
 }) {
     const closePopUp = () => {
         if (onClose) {
@@ -24,52 +27,41 @@ export default function PopUpCon({
         }
     };
 
-    // Custom container variant s 3 tlačítky - tam kde není definovaný proces => předělat pouze přes {children}
-    if (useCustomContainer) {
+    // Edit mode variant pro editaci produktu
+    if (isEditMode) {
         return (
             <Container property={"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"}>
-                {customContainer || (
-                    <ContainerForEntity property={"w-1/2 max-w-2xl"} variant={variant}>
-                        <Container property={"flex justify-between items-center mb-4"}>
-                            <Headings property={"ml-4"} sizeTag={"h5"}>{title}</Headings>
-                            <Button variant={"red"} onClick={closePopUp} property={"px-2 py-1"}>
-                                X
-                            </Button>
-                        </Container>
+                <ContainerForEntity property={"w-1/2 max-w-2xl"} variant={variant}>
+                    <Container property={"flex justify-between items-center mb-4"}>
+                        <Headings property={"ml-4"} sizeTag={"h5"}>{title}</Headings>
+                        <Button variant={"red"} onClick={closePopUp} property={"px-2 py-1"}>
+                            X
+                        </Button>
+                    </Container>
 
-                        {/* TEXT BOXU */}
-                        <Container property={"mb-8 mt-8"}>
-                            <Paragraph property={"text-center"}>
-                                {text || "Proces není definován"}
-                            </Paragraph>
-                        </Container>
+                    {/* CUSTOM CHILDREN - form fields */}
+                    <Container property={"mb-6 ml-4 mr-4"}>
+                        {children}
+                    </Container>
 
-                        {/* 3 TLAČÍTKA */}
-                        <Container property={"flex flex-col gap-4 ml-4 mr-4 mb-4"}>
-                            <Button 
-                                property={"w-full"} 
-                                onClick={closePopUp}
-                                variant="primary"
-                            >
-                                Tlačítko 1
-                            </Button>
-                            <Button 
-                                property={"w-full"} 
-                                onClick={closePopUp}
-                                variant="blue"
-                            >
-                                Tlačítko 2
-                            </Button>
-                            <Button 
-                                property={"w-full"} 
-                                onClick={closePopUp}
-                                variant="red"
-                            >
-                                Tlačítko 3
-                            </Button>
-                        </Container>
-                    </ContainerForEntity>
-                )}
+                    {/* TLAČÍTKA PRO EDITACI */}
+                    <Container property={"flex justify-between ml-4 mr-4 mb-4 gap-4"}>
+                        <Button 
+                            property={"w-full"} 
+                            onClick={onCancel || closePopUp}
+                            variant="red"
+                        >
+                            Zrušit
+                        </Button>
+                        <Button 
+                            property={"w-full"} 
+                            onClick={onSave || closePopUp}
+                            variant="green"
+                        >
+                            Uložit
+                        </Button>
+                    </Container>
+                </ContainerForEntity>
             </Container>
         );
     }

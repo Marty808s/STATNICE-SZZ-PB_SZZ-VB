@@ -24,8 +24,33 @@ export const useAPI = () => {
         }
     };
 
+    const getObjednavky = async () => {
+        try {
+            const res = await fetch('http://localhost:8081/api/objednavky');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            return await res.json();
+        } catch (error) {
+            console.error("Chyba při získávání nabídek:", error);
+            throw error;
+        }
+    };
+
+    const getObjednavkaDetail = async (id) => {
+        try {
+            const res = await fetch(`http://localhost:8081/api/objednavky/${id}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            return await res.json();
+        } catch (error) {
+            console.error("Chyba při získávání detailu objednávky:", error);
+            throw error;
+        }
+    };
+
+
     return {
         getUsers,
-        getProdukty
+        getProdukty,
+        getObjednavky,
+        getObjednavkaDetail
     };
 };

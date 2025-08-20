@@ -47,6 +47,7 @@ CREATE TABLE `order` (
     customer_id INT NOT NULL,
     currency CHAR(3) NOT NULL DEFAULT 'CZK',
     total_price DECIMAL(20,2) NOT NULL DEFAULT 0,
+    state ENUM('Zpracování', 'Export', 'Dokončená') DEFAULT 'Zpracování',
     PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE
 );
@@ -177,6 +178,9 @@ VALUES
   (1, 2, 899.50, 4),   -- 4x Židle Buk
   (2, 2, 899.50, 2),   -- 2x Židle Buk
   (2, 1, 3499.99, 1);  -- 1x Stůl Dub
+
+
+-- Dodělat triggery na skladové zásoby
 
 
 -- SKLADNÍK

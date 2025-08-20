@@ -117,3 +117,65 @@ app.get('/api/produkty', (req,res) => {
 
     })
 })
+
+app.get('/api/objednavky', (req,res) => {
+    const sql = 'SELECT o.id, c.name, c.surname, c.email, o.total_price, o.currency, o.state ' +
+    'FROM `order` AS o ' +
+    'JOIN customer AS c ON o.customer_id = c.id';
+    //if (!userDB) {
+    //    return res.status(401).json({ ok: false, error: 'Unauthorized' })
+    //}
+    rootDB.execute(sql, (err, results) => {
+        if (err) {
+            console.error("[MySQL] /api/objednavky query error:", err)
+            return res.status(500).json({ error: err.message })
+        }
+        return res.json(results)
+
+
+    })
+})
+
+app.get('/api/objednavky/:id', (req,res) => {
+    const orderId = req.params.id;
+    
+    // Získání detailu objednávky s zákazníkem
+    const orderSql = 'SELECT o.id, o.currency, o.total_price, o.state, c.name, c.surname, c.email ' +
+                     'FROM `order` AS o ' +
+                     'JOIN customer AS c ON o.customer_id = c.id ' +
+                     'WHERE o.id = ?';
+    
+    // Získání produktů v objednávce
+    const productsSql = 'SELECT op.id, op.unit_price, op.quantity, op.line_total, ' +
+                        'p.id as product_id, p.name as product_name, p.piece_unit_type ' +
+                        'FROM order_product AS op ' +
+                        'JOIN product AS p ON op.product_id = p.id ' +
+                        'WHERE op.order_id = ?';
+    
+    rootDB.execute(orderSql, [orderId], (err, orderResults) => {
+        if (err) {
+            console.error("[MySQL] /api/objednavky/:id order query error:", err)
+            return res.status(500).json({ error: err.message })
+        }
+        
+        if (!Array.isArray(orderResults) || orderResults.length === 0) {
+            return res.status(404).json({ error: 'Objednávka nenalezena' })
+        }
+        
+        const order = orderResults[0];
+        
+        rootDB.execute(productsSql, [orderId], (err, productResults) => {
+            if (err) {
+                console.error("[MySQL] /api/objednavky/:id products query error:", err)
+                return res.status(500).json({ error: err.message })
+            }
+            
+            const response = {
+                order: order,
+                products: productResults || []
+            };
+            
+            return res.json(response);
+        });
+    });
+})

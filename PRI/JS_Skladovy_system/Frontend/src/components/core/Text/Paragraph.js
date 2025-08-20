@@ -10,6 +10,7 @@ export default function Paragraph({ children, variant = "base", property, onClic
         largeBold: "font-bold text-lg",
         large: "font-normal text-lg",
         red: "font-normal text-red-300",
+        yellow: "font-normal text-yellow-300",
         green: "font-normal text-green-300"
     };
 
