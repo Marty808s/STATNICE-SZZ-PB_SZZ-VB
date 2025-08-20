@@ -116,6 +116,10 @@ export default function ObjednavkyPage() {
                 onChange={handleChange}
                 disableDefault={false}
             />
+            
+            <Button icon="plus" onClick={() => navigate('/objednavka?action=create')}>
+                Vytvořit objednávku
+            </Button>
         </Container>
         <Container property="max-w-3xl mx-auto px-4">
             {filteredValues.map((entity) => (

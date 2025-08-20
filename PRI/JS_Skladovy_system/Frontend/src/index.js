@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import LoginPage from '@pages/LoginPage';
 import ProduktyPage from './pages/ProduktyPage';
+import ProduktFormPage from './pages/ProduktFormPage';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserProvider from '@hooks/UserProvider';
@@ -10,6 +11,7 @@ import { MessageProvider } from './hooks/MessageContext';
 import MessageToast from '@components/MessageBox/MessageToast';
 import ObjednavkyPage from './pages/ObjednavkyPage';
 import ObjednavkaDetailPage from './pages/ObjednavkaDetailPage';
+import ObjednavkaFormPage from './pages/ObjednavkaFormPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,7 +22,9 @@ root.render(
           <Routes>
             <Route path='/' element={<LoginPage />}/>
             <Route path='/produkty' element={<ProduktyPage />}/>
+            <Route path='/produkt' element={<ProduktFormPage />}/>
             <Route path='/objednavky' element={<ObjednavkyPage />}/>
+            <Route path='/objednavka' element={<ObjednavkaFormPage />}/>
             <Route path='/objednavky/:id' element={<ObjednavkaDetailPage />}/>
           </Routes>
         </BrowserRouter>

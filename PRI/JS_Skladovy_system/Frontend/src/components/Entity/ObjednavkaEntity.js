@@ -62,8 +62,8 @@ export default function ObjednavkaEntity({entity, handleEdit, handleViewDetail})
             </Container>
 
             <Container property="flex justify-end ml-6 gap-3 pr-4">
-                <Button icon="edit" onClick={(e) => handleEdit(e, entity)} title="Upravit objednávku"></Button>
-                <Button icon="doc" onClick={(e) => handleViewDetail(e, entity)} title="Zobrazit detail"></Button>
+                <Button icon="doc" onClick={(e) => handleEdit(e, entity)} title="Upravit objednávku"></Button>
+                {/*<Button icon="doc" onClick={(e) => handleViewDetail(e, entity)} title="Zobrazit detail"></Button>*/}
             </Container>
 
         </ContainerForEntity>

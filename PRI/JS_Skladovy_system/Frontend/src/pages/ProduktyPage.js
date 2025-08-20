@@ -17,6 +17,7 @@ export default function ProduktyPage() {
     const [filter, setFilter] = useState({ nazev: "", skladem: "" }); 
     const { getProdukty } = useAPI();
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     const handleChange = (patch) => {
         setFilter((prev) => ({ ...prev, ...patch }))
@@ -70,7 +71,7 @@ export default function ProduktyPage() {
     // handlery
     const handleEdit = (e, entity) => {
         e.stopPropagation();
-        console.log("Kliknutí na entity:", entity.id);
+        navigate(`/produkt?action=edit&id=${entity.id}`);
     }
 
     return (
@@ -98,6 +99,11 @@ export default function ProduktyPage() {
                 onChange={handleChange}
                 disableDefault={false}
             />
+
+            <Button icon="plus" onClick={() => navigate('/produkt?action=create')}>
+                Vytvořit produkt
+            </Button>
+
         </Container>
         <Container property="max-w-3xl mx-auto px-4">
             {filteredValues.map((entity) => (

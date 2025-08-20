@@ -9,7 +9,7 @@ CREATE TABLE product (
     stock BOOL DEFAULT 1,
     in_stock INT DEFAULT 0,
     description LONGTEXT,
-    unit_price DECIMAL(12,4) NOT NULL,
+    unit_price DECIMAL(20,2) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -73,24 +73,19 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- View s celkovou částkou objednávky spočítanou pomocí SELECT - VARIANTA A
-CREATE VIEW order_with_total AS
-SELECT
-    o.id,
-    o.customer_id,
-    o.currency,
-    COALESCE(SUM(op.line_total), 0) AS total_price
-FROM `order` AS o
-LEFT JOIN order_product AS op ON op.order_id = o.id
-GROUP BY o.id, o.customer_id, o.currency;
-
 
 -- Triggery udržující total_price v tabulce `order` - VARIANTA B
 DELIMITER //
 
 CREATE TRIGGER trg_order_product_ai AFTER INSERT ON order_product
 FOR EACH ROW
-BEGIN
+BEGIN         
+    UPDATE product AS p
+    SET p.in_stock = p.in_stock - NEW.quantity,
+        stock = (p.in_stock > 0)
+    WHERE p.id = NEW.product_id;
+
+
     UPDATE `order` AS o
     SET o.total_price = (
         SELECT COALESCE(SUM(line_total), 0)
@@ -100,31 +95,45 @@ BEGIN
     WHERE o.id = NEW.order_id;
 END//
 
-CREATE TRIGGER trg_order_product_au AFTER UPDATE ON order_product
+
+CREATE TRIGGER trg_order_product_au_stocks AFTER UPDATE ON order_product
 FOR EACH ROW
 BEGIN
-    IF OLD.order_id <> NEW.order_id THEN
+    DECLARE delta INT DEFAULT 0;
+    SET delta = NEW.quantity - OLD.quantity;
+    IF delta <> 0 THEN
+        UPDATE product
+        SET in_stock = in_stock - delta
+        WHERE id = NEW.product_id;
+
+        UPDATE product
+        SET stock = (in_stock > 0)
+        WHERE id = NEW.product_id;
+
         UPDATE `order` AS o
         SET o.total_price = (
             SELECT COALESCE(SUM(line_total), 0)
             FROM order_product
             WHERE order_id = OLD.order_id
         )
-        WHERE o.id = OLD.order_id;
-    END IF;
+        WHERE o.id = NEW.order_id;
 
-    UPDATE `order` AS o
-    SET o.total_price = (
-        SELECT COALESCE(SUM(line_total), 0)
-        FROM order_product
-        WHERE order_id = NEW.order_id
-    )
-    WHERE o.id = NEW.order_id;
+    END IF;
 END//
+
 
 CREATE TRIGGER trg_order_product_ad AFTER DELETE ON order_product
 FOR EACH ROW
 BEGIN
+    -- pokud smažu z older, tak přičtu do skladu
+    UPDATE product
+    SET in_stock = in_stock + OLD.quantity
+    WHERE id = OLD.product_id;
+    UPDATE product
+    SET stock = (in_stock > 0)
+    WHERE id = OLD.product_id;
+
+    -- Přepočet total_price objednávky
     UPDATE `order` AS o
     SET o.total_price = (
         SELECT COALESCE(SUM(line_total), 0)
@@ -133,6 +142,29 @@ BEGIN
     )
     WHERE o.id = OLD.order_id;
 END//
+
+
+CREATE TRIGGER trg_product_bu BEFORE UPDATE ON product
+FOR EACH ROW
+BEGIN
+  IF NEW.in_stock <> OLD.in_stock THEN
+    SET NEW.stock = (NEW.in_stock > 0);
+  END IF;
+END//
+
+-- Dodělat triggery na skladové zásoby
+CREATE TRIGGER `trg_product_stock_in_op` AFTER INSERT ON `order_product`
+ FOR EACH ROW BEGIN
+    UPDATE product AS p
+    SET p.in_stock = (
+        SELECT COALESCE(SUM(op.quantity), 0)
+        FROM order_product AS op
+        WHERE op.product_id = NEW.product_id
+    )
+    WHERE p.id = NEW.product_id;
+END//
+
+
 
 DELIMITER ;
 
@@ -180,8 +212,6 @@ VALUES
   (2, 1, 3499.99, 1);  -- 1x Stůl Dub
 
 
--- Dodělat triggery na skladové zásoby
-
 
 -- SKLADNÍK
 -- 1) Vytvoření role
@@ -189,8 +219,12 @@ DROP ROLE IF EXISTS 'skladnik_role';
 CREATE ROLE 'skladnik_role';
 
 -- 2) Čtecí práva (kromě tabulky users)
-GRANT SELECT ON skladovy_system.* TO 'skladnik_role';
-REVOKE SELECT ON skladovy_system.users FROM 'skladnik_role';
+GRANT SELECT ON skladovy_system.product TO 'skladnik_role';
+GRANT SELECT ON skladovy_system.resource TO 'skladnik_role';
+GRANT SELECT ON skladovy_system.product_resource TO 'skladnik_role';
+GRANT SELECT ON skladovy_system.customer TO 'skladnik_role';
+GRANT SELECT ON skladovy_system.`order` TO 'skladnik_role';
+GRANT SELECT ON skladovy_system.order_product TO 'skladnik_role';
 
 -- 3) Práce s objednávkami a skladem
 GRANT INSERT, UPDATE ON skladovy_system.order_product TO 'skladnik_role';

@@ -27,7 +27,7 @@ export default function ProductEntity({entity, handleEdit}) {
     }
 
     return (
-        <ContainerForEntity property="flex py-4 cursor-pointer mt-3 hover:bg-gray-50 transition-colors border rounded-lg shadow-sm" onClick={() => console.log("Klik na:", entity.id)}>
+        <ContainerForEntity variant={`${!entity.stock ? ("red") : ("gray")}`} property="flex py-4 cursor-pointer mt-3 hover:bg-gray-100 transition-colors border rounded-lg shadow-sm" onClick={() => console.log("Klik na:", entity.id)}>
             
             <Container property="flex items-center px-4 flex-1">
                 
@@ -57,7 +57,7 @@ export default function ProductEntity({entity, handleEdit}) {
 
             <Container property="flex justify-end ml-6 gap-3 pr-4">
                 <Button icon="edit" onClick={(e) => handleEdit(e, entity)} title="Upravit produkt"></Button>
-                <Button icon="doc" onClick={(e) => handleEdit(e, entity)} title="Zobrazit detail"></Button>
+                {/*<Button icon="doc" onClick={(e) => handleEdit(e, entity)} title="Zobrazit detail"></Button>*/}
             </Container>
 
         </ContainerForEntity>

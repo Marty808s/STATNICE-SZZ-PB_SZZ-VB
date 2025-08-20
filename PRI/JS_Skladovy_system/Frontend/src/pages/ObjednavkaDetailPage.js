@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAPI } from "@api/api";
 import OrderProductEntity from "@components/Entity/OrderProductEntity";
 import PopUpCon from "@core/Container/PopUpCon";
-import EditProductForm from "@components/Entity/EditProductForm";
+import EditProductForm from "@components/Forms/EditProductForm";
 
 export default function ObjednavkaDetailPage() {
     const [data, setData] = useState(null);
@@ -144,7 +144,10 @@ export default function ObjednavkaDetailPage() {
             <Container property="max-w-4xl mx-auto px-4">
                 <Container property="flex justify-between items-center mb-4">
                     <Headings property="text-xl">Produkty v objednávce</Headings>
-                    <Button icon="arrow" onClick={handleBack}>Zpět na objednávky</Button>
+                    <Container property="flex gap-2">
+                        <Button icon="edit" onClick={() => navigate(`/objednavka?action=edit&id=${id}`)}>Upravit objednávku</Button>
+                        <Button icon="arrow" onClick={handleBack}>Zpět na objednávky</Button>
+                    </Container>
                 </Container>
                 
                 {products.length === 0 ? (

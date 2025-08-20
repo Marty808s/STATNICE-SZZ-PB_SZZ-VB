@@ -17,10 +17,8 @@ export default function TextField({id, name, property, label, placeholder, icon 
     const handleTextChange = useCallback((event) => {
         const newValue = event.target.value;
         
-        // aktualizace interního stavu
         setInputValue(newValue);
         
-        // předání hodnoty rodičovské komponentě
         if (onChange) {
             onChange({[id]: newValue});
         }
