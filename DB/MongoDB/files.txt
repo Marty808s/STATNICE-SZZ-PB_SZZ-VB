@@ -1,0 +1,21 @@
+Dostupná (podobná) data
+
+ČSÚ: Cizinci podle státního občanství, věku a pohlaví – roční otevřená data (včetně 2019). Na produktové stránce jsou přímo odkazy na ZIP pro roky 2004–2024; pro 2019 je to položka „Data 2019“ (kód 290038-20).
+https://csu.gov.cz/produkty/cizinci-podle-statniho-obcanstvi-veku-a-pohlavi
+
+NKOD (data.gov.cz) – záznamy stejné řady (včetně roku 2019).
+https://data.gov.cz/datov%C3%A9-sady?dotaz=cizinci&kl%C3%AD%C4%8Dov%C3%A1-slova=st%C3%A1tn%C3%AD+ob%C4%8Danstv%C3%AD&utm_source=chatgpt.com
+
+HDP na hlavu
+
+World Bank (WDI) – GDP per capita (current US$), lic. CC BY-4.0; k dispozici i PPP varianta (NY.GDP.PCAP.PP.CD).
+https://data.worldbank.org/indicator/NY.GDP.PCAP.CD?utm_source=chatgpt.com
+
+Eurostat – GDP per capita in PPS (tec00114) – index EU=100 (vhodné pro evropské srovnání).
+European Commission
+https://ec.europa.eu/eurostat/databrowser/view/tec00114/default/table?lang=en&utm_source=chatgpt.com
+
+(Alternativa k „cizincům“ na EU úrovni: Eurostat migr_pop1ctz, populace k 1. 1. podle věku, pohlaví a občanství.)
+https://ec.europa.eu/eurostat/databrowser/view/migr_pop1ctz/default/table?lang=en&utm_source=chatgpt.com
+
+https://physics.ujep.cz/~jskvor/SZZ/BcAPI/SZZVP/SZZVP-DB.pdf - zadání
