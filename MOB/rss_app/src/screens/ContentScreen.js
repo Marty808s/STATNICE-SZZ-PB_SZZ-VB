@@ -5,9 +5,8 @@ import { getFeeds, addContent } from '../db/db';
 import { useState, useEffect } from 'react';
 
 
-
-export default function FeedScreen() {
-  const [feeds, setFeeds] = useState([]);
+export default function ContentScreen() {
+  const [content, setContent] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -21,14 +20,14 @@ export default function FeedScreen() {
     })();
   }, []);
 
+  // zobraz detail
   const onPress = (item) => {
     console.log("Pressed", item.title);
     item.id && addContent(item.id);
     //tady bude link na content feed
   }
-  
   //entita feedu
-  const renderFeed = ({ item }) => (
+  const renderContent = ({ item }) => (
     <TouchableOpacity style={styles.feedItem} onPress={() => onPress(item)}>
       <Text style={styles.feedTitle}>{item.title}</Text>
       <Text style={styles.feedDescription}>{item.description}</Text>
@@ -40,7 +39,7 @@ export default function FeedScreen() {
       <Text style={styles.title}>RSS Feedy</Text>
       <FlatList
         data={feeds}
-        renderItem={renderFeed}
+        renderItem={renderContent}
         keyExtractor={item => String(item.id)}
         style={styles.list}
       />

@@ -4,17 +4,19 @@ import { StatusBar } from 'expo-status-bar';
 import TabNavigator from './src/navigation/TabNavigator';
 import { fetchRSSChannel } from './src/api/FetchRSS';
 import { useEffect } from 'react';
-import { createTables } from './src/db/db';
+import { initDB, addContent } from './src/db/db';
 
 export default function App() {
+  // na této stránce bude proběhne aktualizace jednotlivých zpráv na dostupných feedech
   // testovací funkce - zatím init
   useEffect(() => {
-    const fetchTest = async() => {
-      const res = await fetchRSSChannel("https://servis.idnes.cz/rss.aspx?c=prahah")
-      const db = await createTables();
-      console.log("DB: ", db);
+    const initFetch = async() => {
+      //const res = await fetchRSSChannel("https://servis.idnes.cz/rss.aspx?c=prahah")
+      await initDB();
+      //await addContent('1');
+      
     }
-    fetchTest();
+    initFetch();
   }, []);
 
   return (

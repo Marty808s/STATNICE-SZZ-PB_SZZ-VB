@@ -45,3 +45,4 @@ Aplikace používá `@react-navigation/bottom-tabs` pro vytvoření spodní navi
 ## Customizace
 
 Barvy a styly lze upravit v `src/constants/Colors.js`. Navigační možnosti lze upravit v `src/navigation/TabNavigator.js`.
+

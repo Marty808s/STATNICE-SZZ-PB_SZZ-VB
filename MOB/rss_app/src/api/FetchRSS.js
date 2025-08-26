@@ -9,3 +9,7 @@ export async function fetchRSSChannel(url) {
     console.log("JSON: ", json.rss.channel);
     return json;
 }
+
+export async function updateFeed() {
+    return ("pass")
+}
