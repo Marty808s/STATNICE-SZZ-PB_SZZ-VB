@@ -1,9 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
-import { resetDB } from '../db/db';
+import { resetDB, addContent } from '../db/db';
+import { useEffect } from 'react';
 
 export default function HomeScreen() {
+  useEffect(() => {
+    (async () => {
+      console.log("Adding content");
+      await addContent(1);
+    })();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Domů</Text>

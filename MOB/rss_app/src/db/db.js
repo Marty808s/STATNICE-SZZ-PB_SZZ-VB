@@ -66,6 +66,7 @@ export async function initDB() {
 }
 
 export async function addContent(feedId) {
+    console.log('Adding content for feed ID:', feedId);
     const db = await getDb();
 
     // načti feed podle ID (parametrizovaně)
@@ -73,13 +74,16 @@ export async function addContent(feedId) {
     if (!feed) {
         console.log('Feed nenalezen:', feedId);
         return;
+    } else {
+        console.log('Feed nalezen:', feed.title);
     }
 
 
     // získej data kanálu
-    const url = typeof feed.url === 'string' && feed.url;
+    const url = typeof feed.url === 'string' ? feed.url : '';
     const json = await fetchRSSChannel(url);
     const items = json?.rss?.channel?.item;
+    console.log('RSS items count:', items?.length || 0);
     if (!Array.isArray(items) || items.length === 0) {
         console.log('Žádné položky k vložení');
         return;
@@ -88,8 +92,9 @@ export async function addContent(feedId) {
     // připrav INSERT a vlož všechny položky
     const stmt = await db.prepareAsync('INSERT OR IGNORE INTO content (feed_id, title, description, link, published, comments) VALUES (?, ?, ?, ?, ?, ?)');
     try {
+        let insertedCount = 0;
         for (const item of items) {
-            await stmt.executeAsync([
+            const result = await stmt.executeAsync([
                 feedId,
                 item?.title ?? '',
                 item?.description ?? '',
@@ -97,8 +102,11 @@ export async function addContent(feedId) {
                 item?.pubDate ?? '',
                 item?.comments ?? ''
             ]);
+            if (result.changes > 0) {
+                insertedCount++;
+            }
         }
-        console.log('Content - insert hotovo pro feed', feedId);
+        console.log('Content - insert hotovo pro feed', feedId, 'Vloženo položek:', insertedCount);
     } finally {
         await stmt.finalizeAsync();
     }
@@ -131,4 +139,12 @@ export async function resetDB() {
         DROP TABLE IF EXISTS feeds;
     `);
     console.log('Tabulky a indexy smazány');
+}
+
+export async function getContent(feedId) {
+    const db = await getDb();
+    console.log('Hledám obsah pro feed ID:', feedId);
+    const rows = await db.getAllAsync('SELECT * FROM content WHERE feed_id = ?', [feedId]);
+    console.log('Nalezený obsah:', rows);
+    return rows;
 }

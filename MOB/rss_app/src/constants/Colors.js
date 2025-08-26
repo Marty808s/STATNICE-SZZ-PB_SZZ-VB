@@ -8,4 +8,5 @@ export default {
   tabBar: '#F2F2F7',
   tabBarActive: '#007AFF',
   tabBarInactive: '#8E8E93',
+  error: '#FF3B30',
 };

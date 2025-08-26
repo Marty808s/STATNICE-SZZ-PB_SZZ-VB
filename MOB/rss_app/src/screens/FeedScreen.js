@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import Colors from '../constants/Colors';
 import { getFeeds, addContent } from '../db/db';
 import { useState, useEffect } from 'react';
-
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function FeedScreen() {
   const [feeds, setFeeds] = useState([]);
-
+  const navigation = useNavigation();
   useEffect(() => {
     (async () => {
       try {
@@ -24,7 +24,12 @@ export default function FeedScreen() {
   const onPress = (item) => {
     console.log("Pressed", item.title);
     item.id && addContent(item.id);
-    //tady bude link na content feed
+    // navigace na content screen
+    navigation.navigate('ContentScreen', { 
+      id: item.id,
+      title: item.title,
+      description: item.description 
+    });
   }
   
   //entita feedu

@@ -3,8 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import HomeScreen from '../screens/HomeScreen';
-import FeedScreen from '../screens/FeedScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import FeedStackNavigator from './FeedStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,8 +45,7 @@ export default function TabNavigator() {
       })}
     >
       <Tab.Screen name="Domů" component={HomeScreen} />
-      <Tab.Screen name="Feedy" component={FeedScreen} />
-      <Tab.Screen name="Nastavení" component={SettingsScreen} />
+      <Tab.Screen name="Feedy" component={FeedStackNavigator} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }
