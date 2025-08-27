@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
 import { getContent, addContent } from '../db/db';
-import { useState, useEffect } from 'react';
-import { useRoute } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 export default function ContentScreen() {
   const route = useRoute();
@@ -61,12 +59,31 @@ export default function ContentScreen() {
     });
   }
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Datum není k dispozici';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('cs-CZ', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      return dateString;
+    }
+  };
+
   //entita obsahu
   const renderContent = ({ item }) => (
-    <TouchableOpacity style={styles.feedItem} onPress={() => onPress(item)}>
-      <Text style={styles.feedTitle}>{item.title}</Text>
-      <Text style={styles.feedDescription}>{item.description}</Text>
-    </TouchableOpacity>
+    <View key={item.id}>
+      <TouchableOpacity style={styles.feedItem} onPress={() => onPress(item)}>
+        <Text style={styles.feedTitle}>{item.title}</Text>
+        <Text style={styles.feedDescription}>{item.description}</Text>
+        <Text style={styles.pubDate}>{formatDate(item.published)}</Text>
+      </TouchableOpacity>
+    </View>
   );
 
   if (loading) {
@@ -90,10 +107,13 @@ export default function ContentScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>RSS Obsah: {title}</Text>
       {title && (
-        <View style={styles.feedInfo}>
-          <Text style={styles.feedTitle}>{title}</Text>
-          {description && <Text style={styles.feedDescription}>{description}</Text>}
-        </View>
+        <>
+          <View style={styles.feedInfo}>
+            <Text style={styles.feedTitle}>{title}</Text>
+            {description && <Text style={styles.feedDescription}>{description}</Text>}
+          </View>
+          <View style={styles.separator} />
+        </>
       )}
       {content.length === 0 ? (
         <Text style={styles.noContent}>Žádný obsah k zobrazení</Text>
@@ -161,4 +181,15 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     marginTop: 20,
   },
+  pubDate: {
+    fontSize: 12,
+    color: Colors.primary,
+    marginVertical: 10,
+  },
+  separator: {
+    height: 2,
+    backgroundColor: Colors.primary,
+    marginVertical: 5,
+    marginHorizontal: 5,
+  }
 });

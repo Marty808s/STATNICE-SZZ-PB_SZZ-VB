@@ -148,3 +148,15 @@ export async function getContent(feedId) {
     console.log('Nalezený obsah:', rows);
     return rows;
 }
+
+// funkce pro aktualizaci obsahu všech feedů - pro intervalovou aktualizaci
+export async function getFeedsAndContent() {
+    const db = await getDb();
+    console.log('Hledám feedy a obsah');
+    const rows = await db.getAllAsync('SELECT id, title, url FROM feeds');
+    console.log('Nalezené feedy s odkazy:', rows);
+    for (const feed of rows) {
+        const content = await addContent(feed.id);
+        console.log('Obsah aktualizován pro feed', feed.title, ':', content);
+    }
+}

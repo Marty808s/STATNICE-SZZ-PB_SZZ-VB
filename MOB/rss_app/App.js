@@ -5,6 +5,7 @@ import TabNavigator from './src/navigation/TabNavigator';
 import { fetchRSSChannel } from './src/api/FetchRSS';
 import { useEffect } from 'react';
 import { initDB, addContent } from './src/db/db';
+import { UpdateService } from './src/services/UpdateService';
 
 export default function App() {
   // na této stránce bude proběhne aktualizace jednotlivých zpráv na dostupných feedech
@@ -14,7 +15,7 @@ export default function App() {
       //const res = await fetchRSSChannel("https://servis.idnes.cz/rss.aspx?c=prahah")
       await initDB();
       //await addContent('1');
-      
+      UpdateService();
     }
     initFetch();
   }, []);
