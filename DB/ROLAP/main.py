@@ -1,4 +1,3 @@
-import kagglehub
 import pandas as pd
 
 # gdp data
@@ -38,12 +37,34 @@ for idx, r in prunik_codes.iterrows():
     celkem = len(r)
     print(f"Země: {idx}, {pocet_null} / {celkem}")
     
-    if pocet_null > 0.2 * celkem:
-        to_remove.append(idx)   # uložím kód země
+    if pocet_null > 0.3 * celkem:
+        to_remove.append(idx)
         print(f"K odstranění: {idx}")
 
-print("Seznam k odstranění:", to_remove, "Celkem: ", len(to_remove))
+print("Seznam k odstranění:", to_remove, "\nCelkem:", len(to_remove))
 
 mask = prunik_codes.isna().sum(axis=1) <= 0.3 * prunik_codes.shape[1] # vyčistím i podle řádku ty, kterým chybí max 30 procent
 prunik_clean = prunik_codes[mask]
 print(prunik_clean)
+
+print(60*"*")
+print(prunik_clean.columns)
+
+prunik_clean_num = prunik_clean.select_dtypes(include="number")
+
+prunik_clean_num = (prunik_clean_num
+                    .interpolate(method="linear", axis=1)
+                    .ffill(axis=0)
+                    .bfill(axis=0))
+
+# dosadit zpět do původního df
+for col in prunik_clean_num.columns:
+    prunik_clean.loc[:, col] = prunik_clean_num[col]
+
+prunik_clean = prunik_clean.dropna(axis=1)
+
+print(prunik_clean.isna().sum())  # kontrola – mělo by být vše 0
+print(prunik_clean.head())
+
+codes = prunik_clean.reset_index()[["Code", "area (km²)", "density (km²)"]]
+print(codes.head())
