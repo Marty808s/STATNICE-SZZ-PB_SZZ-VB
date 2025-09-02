@@ -1,3 +1,1 @@
-CREATE TABLE fact_table(
-    
-);
+-- zde pouze pokud bych to chtěl nahrá na DB

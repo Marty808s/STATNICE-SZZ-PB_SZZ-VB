@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 # gdp data
 gdp = pd.read_csv('./gdp.csv')
@@ -154,6 +155,9 @@ year_map = dict(zip(years["value"], years["id"]))
 
 # nahradím přes map
 fact_table["fk_year"] = fact_table["fk_year"].map(year_map)
+
+# zaokrouhluji pop na 0 desetinných míst
+fact_table["pop"] = fact_table["pop"].round(0).astype("int64") # zaokoruhlení pop na int
 
 # smažu id - autoinkrement
 del years["id"]
