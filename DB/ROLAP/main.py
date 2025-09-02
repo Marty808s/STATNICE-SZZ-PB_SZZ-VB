@@ -109,7 +109,7 @@ years = pd.DataFrame(years, columns=["value"])
 gdp_cols = [c for c in new_prunik.columns if str(c).isdigit()]
 pop_cols = [c for c in new_prunik.columns if "population" in str(c)]
 
-# 2) melt → long formát
+# 2) melt -> long formát
 gdp_long = new_prunik.melt(
     id_vars="fk_country",
     value_vars=gdp_cols,
@@ -135,7 +135,6 @@ print(10*"*")
 print(pop_long)
 print(10*"*")
 
-
 # spoj GDP a POP podle fk_country + year
 fact_table = pd.merge(gdp_long, pop_long, on=["fk_country", "year"], how="inner")
 
@@ -158,7 +157,8 @@ fact_table["fk_year"] = fact_table["fk_year"].map(year_map)
 
 # zaokrouhluji pop na 0 desetinných míst
 fact_table["pop"] = fact_table["pop"].round(0).astype("int64") # zaokoruhlení pop na int
-
+# CHYBA V INTERPOLACI!!! ŠPATNÝ DATASET!!
+fact_table = fact_table[fact_table["pop"] < 700000000]
 # smažu id - autoinkrement
 del years["id"]
 
