@@ -75,3 +75,9 @@ Následující sekvenční diagram popisuje sled komunikace z pohledu zákazník
 <img src="./hotel_img/sequence_hotel.drawio.png" alt="Alt text" width="700" height="500">
 
 ## 3. Diagram tříd
+
+<img src="./hotel_img/hotel_class.drawio.png" alt="Alt text" width="1000" height="800">
+
+## 4. Figma
+
+https://www.figma.com/design/1DKO7vdSyRnocTUI0nM3bq/Untitled?node-id=1-3&t=tjMaUt7JOWeBhvRN-1
