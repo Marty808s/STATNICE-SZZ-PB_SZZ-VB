@@ -1,0 +1,104 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.2">
+  <diagram name="Stránka-1" id="Vsyixsdf1S_MMMVkGTde">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="eK5R766oDTDgFALVFzvs-1" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="295" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=open;endFill=0;endSize=8;strokeColor=light-dark(#ff0000, #ededed);" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-3" target="eK5R766oDTDgFALVFzvs-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-3" value="Založit projekt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="242.5" y="160" width="105" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-8" value="&lt;font&gt;[data ok]&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="255" y="220" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-9" value="ne" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-8" target="eK5R766oDTDgFALVFzvs-3">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="310" y="600" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="390" y="240" />
+              <mxPoint x="390" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-10" value="ano" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=top;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-8" target="eK5R766oDTDgFALVFzvs-17">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="295" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-14" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="280" y="710" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endSize=8;endArrow=open;endFill=0;strokeColor=light-dark(#ff0000, #ededed);" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="295" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-17" value="Vytvořit projekt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="242.5" y="300" width="105" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-21" value="Vytvořit úkol" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="242.5" y="490" width="105" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-23" value="Pozvat členy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="242.5" y="650" width="105" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endSize=8;endArrow=open;endFill=0;strokeColor=light-dark(#ff0000, #ededed);" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="294.83" y="520" as="sourcePoint" />
+            <mxPoint x="294.83" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endSize=8;endArrow=open;endFill=0;strokeColor=light-dark(#ff0000, #ededed);" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="294.8" y="680" as="sourcePoint" />
+            <mxPoint x="294.8" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-28" value="[pozvat členy]" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;fontSize=8;" vertex="1" parent="1">
+          <mxGeometry x="255" y="550" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-29" value="ne" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-28" target="eK5R766oDTDgFALVFzvs-14">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="435" y="570" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="390" y="570" />
+              <mxPoint x="390" y="725" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-30" value="ano" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=top;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-28">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="295" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-38" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;[vytvorit ukol]&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;fontColor=#000000;fillColor=#ffffc0;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="257.5" y="360" width="75" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-39" value="ne" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-38" target="eK5R766oDTDgFALVFzvs-14">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="435" y="460" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="430" y="380" />
+              <mxPoint x="430" y="725" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eK5R766oDTDgFALVFzvs-40" value="ano" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;verticalAlign=top;endArrow=open;endSize=8;strokeColor=#ff0000;rounded=0;" edge="1" parent="1" source="eK5R766oDTDgFALVFzvs-38">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="295" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

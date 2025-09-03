@@ -1,0 +1,173 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36" version="28.1.2">
+  <diagram name="Stránka-1" id="lwCFZrJaHfYGSxHUeygm">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="90" width="660" height="540" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-1" target="JHIFn1UpkKfQw796Z9s0-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-1" target="JHIFn1UpkKfQw796Z9s0-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-1" target="JHIFn1UpkKfQw796Z9s0-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-1" target="JHIFn1UpkKfQw796Z9s0-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-88" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-1" target="JHIFn1UpkKfQw796Z9s0-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-1" target="JHIFn1UpkKfQw796Z9s0-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-1" value="Manažer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="325" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-3" target="JHIFn1UpkKfQw796Z9s0-58">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-62" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="JHIFn1UpkKfQw796Z9s0-61">
+          <mxGeometry x="-0.2552" y="-1" relative="1" as="geometry">
+            <mxPoint x="13" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-3" value="Vytvořit projekt" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="230" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-95" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-8" target="JHIFn1UpkKfQw796Z9s0-63">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="305" />
+              <mxPoint x="670" y="210" />
+              <mxPoint x="585" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-96" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="JHIFn1UpkKfQw796Z9s0-95">
+          <mxGeometry x="-0.396" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-8" value="Správa projektu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="290" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-93" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-15" target="JHIFn1UpkKfQw796Z9s0-70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-94" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="JHIFn1UpkKfQw796Z9s0-93">
+          <mxGeometry x="0.2707" y="1" relative="1" as="geometry">
+            <mxPoint x="-13" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-15" value="Správa úkolů" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="355" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-18" value="Sledování stavu projektu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="420" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-20" value="Komunikace s týmem" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="510" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-21" value="Správa týmových uživatelů" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="570" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-27" value="ProjectManagerApp" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="300" y="90" width="660" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-28" target="JHIFn1UpkKfQw796Z9s0-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="275" />
+              <mxPoint x="980" y="175" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-28" target="JHIFn1UpkKfQw796Z9s0-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-28" target="JHIFn1UpkKfQw796Z9s0-73">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="275" />
+              <mxPoint x="980" y="370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-28" value="Týmový člen" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="245" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-29" value="Práce na projektu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="160" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-35" value="Komunikace s týmem" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="260" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-58" value="Vytvoření úkolu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="230" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-63" target="JHIFn1UpkKfQw796Z9s0-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-68" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="JHIFn1UpkKfQw796Z9s0-67">
+          <mxGeometry x="-0.1259" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-63" value="Pozvat uživatele do týmu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="160" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-70" target="JHIFn1UpkKfQw796Z9s0-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-75" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="JHIFn1UpkKfQw796Z9s0-74">
+          <mxGeometry x="-0.1801" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-70" value="Přiřadit uživatele k úkolu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="355" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-73" value="Práce na úkolu" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="355" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-76" target="JHIFn1UpkKfQw796Z9s0-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="605" y="400" />
+              <mxPoint x="375" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-80" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="JHIFn1UpkKfQw796Z9s0-78">
+          <mxGeometry x="0.0486" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-76" value="Dashboard" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="410" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="JHIFn1UpkKfQw796Z9s0-77" target="JHIFn1UpkKfQw796Z9s0-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="605" y="490" />
+              <mxPoint x="375" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-81" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="JHIFn1UpkKfQw796Z9s0-79">
+          <mxGeometry x="-0.0093" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JHIFn1UpkKfQw796Z9s0-77" value="Export" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="450" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
