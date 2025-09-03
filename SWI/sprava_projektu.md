@@ -67,3 +67,5 @@ stránky projektu, rozhraní pro přidání úkolů a nástěnky pro sledování
 <img src="./sprava_projektu/projekt_activit.png" alt="Alt text" width="300" height="800">
 
 ## 3. State diagram
+
+<img src="./sprava_projektu/state_projekt.drawio.png" alt="Alt text" width="800" height="200">
