@@ -351,7 +351,7 @@ public class Program
         */
 
         //Builder
-        /*
+
         BuilderOne b1 = new BuilderOne();
         BuilderTwo b2 = new BuilderTwo();
         Director director = new Director(b1);
@@ -360,7 +360,7 @@ public class Program
         director.changeBuilder(b2);
         IBuilderProduct p2 = director.make("no_engine");
         Console.WriteLine(p2.hp);
-        */
+
 
         //Prototype
         /*
@@ -371,6 +371,7 @@ public class Program
         Console.WriteLine(p2.field); // Originál
         Console.WriteLine(Object.ReferenceEquals(p1, p2)); // False
         */
+ 
 
 
     }
