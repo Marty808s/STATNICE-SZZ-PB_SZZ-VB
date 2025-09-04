@@ -2,10 +2,12 @@
 //Factory - objektová - DONE, abstract - DONE
 //Builder - DONE
 //Singleton - DONE
-//Prototype
+//Prototype - DONE
 
 //---------------------------------------------------------------------------------------------------------
 //Factory - basic
+using System.Globalization;
+
 public interface IProduct
 {
     public void doStuff();
@@ -280,6 +282,33 @@ public class Director
         return builder.getResult();
     }
 }
+//---------------------------------------------------------------------------------------------------------
+// Prototype
+public abstract class Prototype
+{
+    public string field { get; set; }
+    public abstract Prototype clone();
+}
+
+
+public class ConcretePrototype : Prototype
+{
+    public ConcretePrototype(string _field)
+    {
+        this.field = _field;
+    }
+
+    public ConcretePrototype(Prototype prototype)
+    {
+        this.field = prototype.field;
+    }
+
+    public override Prototype clone()
+    {
+        return new ConcretePrototype(this);
+    }
+}
+
 
 //---------------------------------------------------------------------------------------------------------
 // Program sekce
@@ -322,6 +351,7 @@ public class Program
         */
 
         //Builder
+        /*
         BuilderOne b1 = new BuilderOne();
         BuilderTwo b2 = new BuilderTwo();
         Director director = new Director(b1);
@@ -330,6 +360,18 @@ public class Program
         director.changeBuilder(b2);
         IBuilderProduct p2 = director.make("no_engine");
         Console.WriteLine(p2.hp);
+        */
+
+        //Prototype
+        /*
+        var p1 = new ConcretePrototype("Originál");
+        var p2 = p1.clone();
+
+        Console.WriteLine(p1.field); // Originál
+        Console.WriteLine(p2.field); // Originál
+        Console.WriteLine(Object.ReferenceEquals(p1, p2)); // False
+        */
+
 
     }
 }
