@@ -1,7 +1,10 @@
-﻿// strukturální návrhové vzory (Adaptér - DONE, Dekorátor, Most, Muší váha)
+﻿// strukturální návrhové vzory (Adaptér - DONE, Dekorátor - DONE, Most - DONE, Muší váha - IN PROGRESS)
 // https://refactoring.guru/design-patterns/structural-patterns
 //-----------------------------------------------------------------------------------
 //Adaptér
+using System.Drawing;
+using System.Xml.Linq;
+
 public interface App1
 {
     void Method(); 
@@ -51,40 +54,130 @@ public class Service
 }
 //-----------------------------------------------------------------------------------
 //Dekorátor
-public interface Component
+// rozhraní - které všichni musí implementovat
+public interface IWriter
 {
-    void Execute();
+    void Write(string message);
 }
 
-
-public class BaseDecorator
+// první implementace - základní implementace - tu budu wrapovat
+public class ConsoleWriter : IWriter
 {
-    private Component wrappee;
-
-    public BaseDecorator(Component c)
+    public void Write(string message)
     {
-        this.wrappee = c;
+        Console.WriteLine(message);
     }
 
-    public void Execute()
+}
+
+// první dekorace třídy ConsoleWriter
+public class UpperWriter : IWriter
+{
+    private IWriter _base;
+
+    public UpperWriter(IWriter component)
     {
-        wrappee.Execute();
+        this._base = component;
+    }
+
+    public void Write(string message)
+    {
+        //rozčíření funkčnosti objektu
+        _base.Write(message.ToUpper());
+    }
+
+}
+
+// druhá dekorace třídy ConsoleWriter
+public class LowerWriter : IWriter
+{
+    private IWriter _base;
+
+    public LowerWriter(IWriter component)
+    {
+        _base = component;
+    }
+
+    public void Write(string message)
+    {
+        //rozčíření funkčnosti objektu
+        _base.Write(message.ToLower());
+    }
+
+}
+
+//-----------------------------------------------------------------------------------
+//Most
+
+public abstract class Color
+{
+    public string name { get; set; }
+}
+
+public class Red : Color
+{
+    public Red() { name = "Red"; }
+}
+
+public class Blue : Color
+{
+    public Blue() { name = "Blue"; }
+}
+
+
+public abstract class Shape2D
+{
+    private Color color; //tohle je už ten bridge
+    public string name { get; set; }
+    public int x_vector { get; set; }
+    public int y_vector { get; set; }
+    public bool fill { get; set; } = false;
+
+    public Shape2D(Color _color)
+    {
+        color = _color;
+    }
+
+    public void setColor(Color _color)
+    {
+        color = _color;
+    }
+
+    public void Render()
+    {
+        Console.WriteLine($"Jsem {name}, mám barvu {color.name}, fill: {fill}");
+    }
+
+}
+
+public class Rect : Shape2D
+{
+    public int side { get; set; }
+
+    public Rect(Color color, int _side) : base(color)
+    {
+        side = _side;
+        name = "Obdélník";
     }
 }
 
-public class WrappedComponent : Component
+public class Circle : Shape2D
 {
-    public void Execute()
+    public int r { get; set; }
+    public Circle(Color color, int _r) : base(color)
     {
-        Console.WriteLine("Wrapped komponenta");
+        r = _r;
+        name = "Kruh";
     }
 }
 
-//Dekorovaný objekt
-public class ConcreateDecorators
-{
-    // zde přepsat execution s extra() funkcí
-}
+//-----------------------------------------------------------------------------------
+//Muší váha
+// mám dva stavy: intrinsic - sdílený, neměnný - textury, tvuky atd.
+//                extrinsic - dodává se při každém volání - pozice, rotace
+
+
+
 
 
 //-----------------------------------------------------------------------------------
@@ -93,8 +186,33 @@ class Program
 {
     static void Main()
     {
+        //Adapter
+        /*
         Service service = new Service();
         var adapter = new Adapter(service);
         adapter.Method();
+        */
+
+        //Dekorátor
+        /*
+        var text = "Hello World!!!";
+        IWriter console_writer = new ConsoleWriter();
+        IWriter upper_writer = new UpperWriter(console_writer);
+        IWriter lower_writer = new LowerWriter(console_writer);
+
+        console_writer.Write(text);
+        upper_writer.Write(text);
+        lower_writer.Write(text);
+        */
+
+        //Most
+        /*
+        Shape2D redCircle = new Circle(new Red(),4);
+        Shape2D blueRec= new Rect(new Blue(), 8);
+
+        redCircle.Render();
+        blueRec.Render();
+        */
+
     }
 }
