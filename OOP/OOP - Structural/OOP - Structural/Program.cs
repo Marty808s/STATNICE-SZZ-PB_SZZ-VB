@@ -2,7 +2,6 @@
 // https://refactoring.guru/design-patterns/structural-patterns
 //-----------------------------------------------------------------------------------
 //Adaptér
-
 public interface App1
 {
     void Method(); 
@@ -52,6 +51,40 @@ public class Service
 }
 //-----------------------------------------------------------------------------------
 //Dekorátor
+public interface Component
+{
+    void Execute();
+}
+
+
+public class BaseDecorator
+{
+    private Component wrappee;
+
+    public BaseDecorator(Component c)
+    {
+        this.wrappee = c;
+    }
+
+    public void Execute()
+    {
+        wrappee.Execute();
+    }
+}
+
+public class WrappedComponent : Component
+{
+    public void Execute()
+    {
+        Console.WriteLine("Wrapped komponenta");
+    }
+}
+
+//Dekorovaný objekt
+public class ConcreateDecorators
+{
+    // zde přepsat execution s extra() funkcí
+}
 
 
 //-----------------------------------------------------------------------------------
