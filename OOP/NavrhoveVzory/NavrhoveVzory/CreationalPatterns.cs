@@ -1,6 +1,6 @@
 ﻿// https://refactoring.guru/design-patterns/creational-patterns
 //Factory - objektová - DONE, abstract - DONE
-//Builder
+//Builder - DONE
 //Singleton - DONE
 //Prototype
 
@@ -158,8 +158,128 @@ public class Singleton
     }
 }
 //---------------------------------------------------------------------------------------------------------
+// Builder
+public interface IBuilderProduct
+{
+    string type { get; set; }
+    int wheels { get; set; }
+    int cylinders { get; set; }
+    float hp { get; set; }
+}
+public interface IBuilder
+{
+    void stepOne();
+    void stepTwo();
+    void stepThree();
+    IBuilderProduct getResult();
+
+}
+
+public class BuildingA: IBuilderProduct
+{
+    public string type { get; set; } = "TypeA";
+    public int wheels { get; set; }
+    public int cylinders { get; set; }
+    public float hp { get; set; }
+}
+
+public class BuildingB: IBuilderProduct
+{
+    public string type { get; set; } = "TypeB";
+    public int wheels { get; set; }
+    public int cylinders { get; set; }
+    public float hp { get; set; }
+}
+
+public class BuilderOne: IBuilder
+{
+    private BuildingA result;
+    public BuilderOne()
+    {
+        this.result = new BuildingA();
+    }
+
+    public void stepOne()
+    {
+        this.result.cylinders = 4;
+    }
+
+    public void stepTwo()
+    {
+        this.result.wheels = 4;
+    }
+
+    public void stepThree()
+    {
+        this.result.hp = 1400.0f;
+    }
+
+    public IBuilderProduct getResult()
+    {
+        return this.result;
+    }
+}
 
 
+public class BuilderTwo: IBuilder
+{
+    private BuildingB result;
+    public BuilderTwo()
+    {
+        this.result = new BuildingB();
+    }
+
+    public void stepOne()
+    {
+        this.result.cylinders = 2;
+    }
+
+    public void stepTwo()
+    {
+        this.result.wheels = 3;
+    }
+
+    public void stepThree()
+    {
+        this.result.hp = 100.0f;
+    }
+
+    public IBuilderProduct getResult()
+    {
+        return this.result;
+    }
+}
+
+
+public class Director
+{
+    private IBuilder builder;
+
+    public Director(IBuilder builder)
+    {
+        this.builder = builder;
+    }
+
+    public void changeBuilder(IBuilder builder)
+    {
+        this.builder = builder;
+    }
+
+    public IBuilderProduct make(string type)
+    {
+        if (type == "no_engine")
+        {
+            builder.stepOne();
+            builder.stepTwo();
+        } else
+        {
+            builder.stepOne();
+            builder.stepTwo();
+            builder.stepThree();
+        }
+        return builder.getResult();
+    }
+}
 
 //---------------------------------------------------------------------------------------------------------
 // Program sekce
@@ -195,9 +315,22 @@ public class Program
         */
 
         //Singleton
+        /*
         var s1 = Singleton.getInstance();
         var s2 = Singleton.getInstance();
         Console.WriteLine(ReferenceEquals(s1, s2)); // True
+        */
+
+        //Builder
+        BuilderOne b1 = new BuilderOne();
+        BuilderTwo b2 = new BuilderTwo();
+        Director director = new Director(b1);
+        IBuilderProduct prod = director.make("");
+        Console.WriteLine(prod.hp);
+        director.changeBuilder(b2);
+        IBuilderProduct p2 = director.make("no_engine");
+        Console.WriteLine(p2.hp);
+
     }
 }
 
