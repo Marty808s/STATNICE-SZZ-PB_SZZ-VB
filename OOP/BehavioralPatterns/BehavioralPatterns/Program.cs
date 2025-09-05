@@ -191,9 +191,38 @@ public class User
 }
 //-----------------------------------------------------------
 //Iterátor
+// slouží k procházení kolekcí dat -> pomocí prostředníka
+
+public interface IIterator<T>
+{
+    public T Next();
+    public bool HasMore();
+}
+
+public interface IterableCollection<T>
+{
+    public IIterator<T> CreateIterator();
+}
+
+//Objekt kolekce
 
 
 
+//Samotný iterátor, který obsahuje i IterableCollection
+public class Iterator<T> : IIterator<T>
+{
+    private IterableCollection<T> _collection;
+
+    public Iterator(IterableCollection<T> collection)
+    {
+        _collection = collection;
+    }
+
+    public IIterator<T> Next() 
+    {
+        return IIterator<T> object;
+    }
+}
 
 //-----------------------------------------------------------
 //Program
