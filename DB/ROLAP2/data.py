@@ -70,6 +70,47 @@ print("Po", cizinci.shape[0])
 for c in cizinci.columns:
     print(f"Sloupcec: {c}, počet: {cizinci[c].isna().sum()}")
 
+years_hdp = hdp.columns
+years_hdp = years_hdp[1:]
+print(years_hdp)
+
+years_dim = pd.DataFrame({
+    "id": range(1,len(years_hdp)+1),
+    "value": years_hdp
+})
+print(years_dim)
+
+# kraje a uzemi dim
+kraje_uzemi = cizinci[["kraj_kod","vuzemi_txt","kraj_txt"]].drop_duplicates() #dropne duplicitní hodnoty na víe sloupcích
+print(kraje_uzemi)
+
+kraje_dim = pd.DataFrame({
+    "id": range(1,len(kraje_uzemi)+1),
+    "kraj_temp_key": kraje_uzemi["kraj_kod"],
+    "name" : kraje_uzemi["kraj_txt"],
+    "uzemi" : kraje_uzemi["kraj_txt"]
+})
+
+print(kraje_dim)
+
+# Tabulky faktů - pomocí merge
+"""
+fact_foreigners = foreigners.merge(
+    dim_country,
+    left_on="country_name",   # business klíč ve faktech
+    right_on="name_cz",       # business klíč v dimenzi
+    how="left"
+)
+"""
+
+"""
+country_map = dict(zip(dim_country["name_cz"], dim_country["country_id"]))
+foreigners["country_id"] = foreigners["country_name"].map(country_map)
+"""
+#fact_gdp
+
+#fact_cizinci
+
 #Export
-cizinci.to_csv('./output_cizinci.csv', index=False)
-hdp.to_csv('./output_hdp.csv', index=False)
+#cizinci.to_csv('./output_cizinci.csv', index=False)
+#hdp.to_csv('./output_hdp.csv', index=False)
