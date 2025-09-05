@@ -178,14 +178,14 @@ fact_cizinci = fact_cizinci[["fk_country","fk_region","pocet_cizinci", "fk_year"
 #cizinci.to_csv('./output_cizinci.csv', index=False)
 #hdp.to_csv('./output_hdp.csv', index=False)
 
-#DATA INSERT
+# DATA INSERT
 print(50*"_")
 print("Insertování dat")
 
 conn = getConnection()
 print(conn)
 
-#insert do dim_years
+# insert do dim_years
 print(50*"_")
 print("Years insert")
 dim_year = years_dim[["nazev"]]
@@ -193,21 +193,23 @@ dim_year = years_dim[["nazev"]]
 dim_year.to_sql(
     'dim_year',
     con=conn,
-    if_exists='append',  # append = přidá data, fail = chyba, replace = dropne tabulku
-    index=False
+    if_exists='append',
+    index=False,
+    method='multi',
 )
 
 print(50*"_")
-#insert do dim_region
+# insert do dim_region
 print(50*"_")
 print("Regiony")
-dim_region = region_dim[["nazev","uzemi","source_key"]]
+dim_region = region_dim[["nazev", "uzemi", "source_key"]]
 
 dim_region.to_sql(
     'dim_region',
     con=conn,
     if_exists="append",
-    index=False
+    index=False,
+    method='multi',
 )
 
 print(50*"_")
@@ -221,29 +223,31 @@ dim_country.to_sql(
     'dim_country',
     con=conn,
     if_exists="append",
-    index=False
+    index=False,
+    method='multi',
 )
 
 print(50*"_")
 
 print(50*"_")
 print("Cizinci")
-#insert fact_cizinci
+# insert fact_cizinci
 
 fact_cizinci.to_sql(
     'fact_cizinci',
     con=conn,
     if_exists="append",
-    index=False
+    index=False,
+    method='multi',
 )
 
 print(50*"_")
 
-#insert fact_country_hdp
+# insert fact_country_hdp
 print(50*"_")
 print("country hdp")
 
-fact_country_hdp = fact_country_hdp.copy()   # doporučené, když víš, že chceš samostatný DF
+fact_country_hdp = fact_country_hdp.copy()
 
 fact_country_hdp.loc[:, "hdp_inhabitant"] = (
     fact_country_hdp["hdp_inhabitant"]
@@ -257,6 +261,8 @@ fact_country_hdp.to_sql(
     'fact_country_hdp',
     con=conn,
     if_exists="append",
-    index=False
+    index=False,
+    method='multi',
 )
+
 print(50*"_")

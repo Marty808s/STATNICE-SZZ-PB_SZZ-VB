@@ -5,6 +5,7 @@ services:
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=dwh
     volumes:
       - db:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d
