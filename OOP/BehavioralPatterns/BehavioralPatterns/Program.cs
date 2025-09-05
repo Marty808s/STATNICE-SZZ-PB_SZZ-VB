@@ -1,4 +1,5 @@
-﻿// týkající se chování (Příkaz - DONE, Pozorovatel - DONE, Memo, Iterator, Strategy - DONE),
+﻿// týkající se chování (Příkaz - DONE, Pozorovatel - DONE, Memo, Iterator - DONE, Strategy - DONE),
+// https://refactoring.guru/design-patterns/behavioral-patterns
 //-----------------------------------------------------------
 //Příkaz - command
 // Command drří referenci na recievera - toho obalí a pak je volán
@@ -193,36 +194,82 @@ public class User
 //Iterátor
 // slouží k procházení kolekcí dat -> pomocí prostředníka
 
-public interface IIterator<T>
+//Objekt DO kolekce - K ITEROVÁNÍ
+public class Profile
 {
-    public T Next();
+    public string Name;
+
+    public Profile(string name)
+    {
+        Name = name;
+    }
+
+    public void SayHello()
+    {
+        Console.WriteLine(Name);
+    }
+}
+
+// iterátor pro objekt MyHomie
+public interface ProfileIterator
+{
+    public Profile Next();
     public bool HasMore();
 }
 
-public interface IterableCollection<T>
+// rozhraní pro kolekci - vytvoř si iterator
+public interface Kolekce
 {
-    public IIterator<T> CreateIterator();
+    public ProfileIterator CreateIterator();
+
 }
 
-//Objekt kolekce
 
-
-
-//Samotný iterátor, který obsahuje i IterableCollection
-public class Iterator<T> : IIterator<T>
+// moje kolekce s objekty Profile
+public class FriendList : Kolekce
 {
-    private IterableCollection<T> _collection;
-
-    public Iterator(IterableCollection<T> collection)
+    private List<Profile> _friends = new();
+    public ProfileIterator CreateIterator()
     {
-        _collection = collection;
+        return new FriendListIterator(_friends);
     }
 
-    public IIterator<T> Next() 
+    public void Add(Profile p)
     {
-        return IIterator<T> object;
+        _friends.Add(p); 
+    }
+
+    public void Remove(Profile p)
+    {
+        _friends.Remove(p);
     }
 }
+
+
+//můj iterátor
+public class FriendListIterator : ProfileIterator
+{
+    private List<Profile> _friends;
+    private int _position = 0;
+
+    public FriendListIterator(List<Profile> friends)
+    {
+        _friends = friends;
+    }
+
+    public bool HasMore()
+    {
+        return _position < _friends.Count;
+    }
+
+    public Profile Next()
+    {
+        if (!HasMore())
+            throw new InvalidOperationException("Iterator je na konci.");
+        return _friends[_position++];
+    }
+}
+
 
 //-----------------------------------------------------------
 //Program
@@ -270,6 +317,20 @@ public class Program
         obj.SetStrategy(mean);
         obj.UseStrategy();
         */
+
+        //Iterátor
+        FriendList list = new FriendList();
+        list.Add(new Profile("Alice"));
+        list.Add(new Profile("Bob"));
+        list.Add(new Profile("Charlie"));
+
+        ProfileIterator it = list.CreateIterator();
+
+        while (it.HasMore())
+        {
+            Profile p = it.Next();
+            p.SayHello();
+        }
 
 
 
