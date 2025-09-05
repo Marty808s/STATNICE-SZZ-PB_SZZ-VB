@@ -1,4 +1,4 @@
-﻿// týkající se chování (Příkaz - DONE, Pozorovatel - DONE, Memo, Iterator, Observer, Strategy),
+﻿// týkající se chování (Příkaz - DONE, Pozorovatel - DONE, Memo, Iterator, Strategy - DONE),
 //-----------------------------------------------------------
 //Příkaz - command
 // Command drří referenci na recievera - toho obalí a pak je volán
@@ -124,8 +124,73 @@ public class ConsoleSubscriber : ISubcriber
 }
 
 //-----------------------------------------------------------
-// Memo - memento
+// Strategy - strategie
 
+//mám strategie - soubor objektů, které implementují IStrategy
+//mám kontext - ten má uloženou strategy kterou měním přes metodu
+
+public interface IStrategy
+{
+    public double Calculate(List<int> list);
+}
+
+//strategie avg
+public class AritmeticCalc : IStrategy
+{
+    public double Calculate(List<int> list)
+    {
+
+        return (double) list.Average();
+
+    }
+}
+
+//strategie mean
+public class MeanCalc : IStrategy
+{
+    public double Calculate(List<int> list)
+    {
+        if (list == null || !list.Any())
+            throw new InvalidOperationException("Sekvence je prázdná.");
+
+        var sorted = list.OrderBy(x => x).ToList();
+        int count = sorted.Count;
+        int middle = count / 2;
+
+        return count % 2 == 0
+            ? (sorted[middle - 1] + sorted[middle]) / 2.0
+            : sorted[middle];
+    }
+}
+
+// Využívá strategii
+public class User
+{
+    private IStrategy _strategy;
+    public List<int> ints = new();
+
+    public User(IStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void SetStrategy(IStrategy strategy)
+    {
+        _strategy = strategy;
+    }
+
+    public void UseStrategy()
+    {
+        Console.WriteLine(_strategy.Calculate(ints));
+    }
+
+    // jen pro přidání "známky"
+    public void Update(int add) {
+        ints.Add(add);
+    }
+}
+//-----------------------------------------------------------
+//Iterátor
 
 
 
@@ -148,6 +213,7 @@ public class Program
         deleteBtn.Click();
         */
 
+        /*
         //Observer
         Publisher publisher = new Publisher();
 
@@ -160,6 +226,23 @@ public class Program
         // odeberu
         publisher.UnSubscribe(s1);
         publisher.Notify("Přeživší!");
+        */
+
+        /*
+        //Strategy
+        IStrategy mean = new MeanCalc();
+        IStrategy avg = new AritmeticCalc();
+        var obj = new User(avg);
+        obj.Update(5);
+        obj.Update(10);
+        obj.Update(7);
+        obj.UseStrategy();
+        obj.Update(5);
+        obj.SetStrategy(mean);
+        obj.UseStrategy();
+        */
+
+
 
 
 
