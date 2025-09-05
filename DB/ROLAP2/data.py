@@ -1,8 +1,9 @@
 import pandas as pd
+from db import getConnection
 
 # LOAD DAT
 hdp = pd.read_csv("hdp_coded.csv")
-cizinci = pd.read_csv("cizinci.csv")
+cizinci = pd.read_csv("cizinci.CSV")
 
 # HDP DATASET
 # Header fix hdp data - iterace pres radky
@@ -88,7 +89,7 @@ region_dim = pd.DataFrame({
     "id": range(1,len(kraje_uzemi)+1),
     "source_key": kraje_uzemi["kraj_kod"],
     "nazev" : kraje_uzemi["kraj_txt"],
-    "uzemi" : kraje_uzemi["kraj_txt"]
+    "uzemi" : kraje_uzemi["vuzemi_txt"]
 })
 
 print(region_dim)
@@ -136,9 +137,9 @@ fact_country_hdp_long = fact_country_hdp_long.merge(
     right_on="nazev"
 ).rename(columns={"id":"fk_year"})
 
-print(fact_country_hdp_long.head(50))
+#print(fact_country_hdp_long.head(50))
 fact_country_hdp = fact_country_hdp_long[["fk_country", "hdp_inhabitant", "fk_year"]]
-print(fact_country_hdp)
+#print(fact_country_hdp)
 
 #fact_cizinci
 fact_cizinci = cizinci.merge(
@@ -167,12 +168,95 @@ fact_cizinci = fact_cizinci.merge(
 ).rename(columns={"id": "fk_region"})
 
 fact_cizinci = fact_cizinci.rename(columns={"source_key_x" : "source_key"})
-print(fact_cizinci)
+#print(fact_cizinci)
 
 fact_cizinci = fact_cizinci[["fk_country","fk_region","pocet_cizinci", "fk_year", "source_key"]]
-print(fact_cizinci)
+#print(fact_cizinci)
 
 #fact_cizinci = fact_cizinci[["fk_country", "fk_country"]]
 #Export
 #cizinci.to_csv('./output_cizinci.csv', index=False)
 #hdp.to_csv('./output_hdp.csv', index=False)
+
+#DATA INSERT
+print(50*"_")
+print("Insertování dat")
+
+conn = getConnection()
+print(conn)
+
+#insert do dim_years
+print(50*"_")
+print("Years insert")
+dim_year = years_dim[["nazev"]]
+
+dim_year.to_sql(
+    'dim_year',
+    con=conn,
+    if_exists='append',  # append = přidá data, fail = chyba, replace = dropne tabulku
+    index=False
+)
+
+print(50*"_")
+#insert do dim_region
+print(50*"_")
+print("Regiony")
+dim_region = region_dim[["nazev","uzemi","source_key"]]
+
+dim_region.to_sql(
+    'dim_region',
+    con=conn,
+    if_exists="append",
+    index=False
+)
+
+print(50*"_")
+
+# insert dim_country
+print(50*"_")
+print("Země")
+dim_country = country_dim[["nazev"]]
+
+dim_country.to_sql(
+    'dim_country',
+    con=conn,
+    if_exists="append",
+    index=False
+)
+
+print(50*"_")
+
+print(50*"_")
+print("Cizinci")
+#insert fact_cizinci
+
+fact_cizinci.to_sql(
+    'fact_cizinci',
+    con=conn,
+    if_exists="append",
+    index=False
+)
+
+print(50*"_")
+
+#insert fact_country_hdp
+print(50*"_")
+print("country hdp")
+
+fact_country_hdp = fact_country_hdp.copy()   # doporučené, když víš, že chceš samostatný DF
+
+fact_country_hdp.loc[:, "hdp_inhabitant"] = (
+    fact_country_hdp["hdp_inhabitant"]
+    .astype(str)
+    .str.replace(" ", "", regex=False)
+    .str.replace(",", ".", regex=False)
+    .astype(int)
+)
+
+fact_country_hdp.to_sql(
+    'fact_country_hdp',
+    con=conn,
+    if_exists="append",
+    index=False
+)
+print(50*"_")
