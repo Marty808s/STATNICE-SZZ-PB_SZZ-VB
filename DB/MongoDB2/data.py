@@ -30,12 +30,21 @@ for c in cizinci.columns:
     print(f"Sloupec: {c}, {cizinci[c].isna().sum()}/{cizinci.shape[0]}")
 
 # u této datové sady došlo k redukci o cca 28tis řádků
-
+#-----------------------------------------------------------------------------------------
 # HDP data
 print(40*"___")
 print("HDP")
 print(40*"___")
 hdp = pd.read_csv("hdp.csv")
+
+#stat - nazvy strip
+for idx, h in hdp.iterrows():
+    #print(h.Stat)
+    splited = h.Stat.split()
+    if len(splited) > 1:
+        h.Stat = splited[0]
+    else:
+        continue
 
 # pomocí okometrie -> chybějící údaje budou značeny "-"
 print(hdp)
@@ -107,5 +116,7 @@ print(hdp)
 for c in hdp.columns:
     print(f"Sloupec: {c}, {hdp[c].isna().sum()}/{hdp.shape[0]}")
 
+cizinci.to_csv('./_cizinci.csv', index=False)
+hdp.to_csv('./_hdp.csv', index=False)
 
 
