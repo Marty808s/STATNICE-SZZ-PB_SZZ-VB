@@ -97,7 +97,6 @@ public class KontaktIterator : IKontaktIterator
     {
         if (!HasMore())
         {
-            //throw new InvalidOperationException("Iterator nemá kam jít - je na konci, jdu na začátek");
             Console.Write("Jsem na konci, jdu na začátek");
             this._position = 0;
             return _kontakty[0];
@@ -121,6 +120,20 @@ public class KontaktKolekce : IKolekce
     public int Count()
     {
         return _kontakty.Count;
+    }
+
+    public KontaktKolekce Search(string text)
+    {
+        var result = new KontaktKolekce();
+        foreach (var kontakt in _kontakty)
+        {
+            if (!string.IsNullOrEmpty(kontakt.Jmeno) &&
+                kontakt.Jmeno.Contains(text, StringComparison.OrdinalIgnoreCase))
+            {
+                result.Insert(kontakt);
+            }
+        }
+        return result;
     }
 
     public bool Insert(Kontakt kontak)
@@ -358,16 +371,124 @@ public class CopyCommand : ICommand
     }
 }
 
+
+public class FileManager
+{
+    public string file_name = "kontakty";
+    private KontaktKolekce _data;
+    public string path;
+
+    public FileManager(KontaktKolekce data)
+    {
+        this._data = data;
+        string projectPath = AppDomain.CurrentDomain.BaseDirectory;
+        string exportDir = Path.Combine(projectPath, "exports");
+
+        if (!Directory.Exists(exportDir))
+        {
+            Directory.CreateDirectory(exportDir);
+        }
+
+        this.path = Path.Combine(exportDir, $"{file_name}.txt");
+    }
+
+    public void Export()
+    {
+        using (StreamWriter writer = new StreamWriter(path))
+        {
+            for (int i = 0; i < _data.Count(); i++)
+            {
+                var kontakt = _data.GetById(i);
+                writer.WriteLine($"{kontakt.Jmeno} | {kontakt.Prijmeni} | {kontakt.Telefon} | {kontakt.Email}");
+            }
+        }
+    }
+
+    public KontaktKolekce Import()
+    {
+        var kolekce = new KontaktKolekce();
+
+        if (!File.Exists(path))
+        {
+            Console.WriteLine("Import: Soubor nenalezen, bude vytvořen nový při exportu.");
+            return kolekce;
+        }
+
+        var lines = File.ReadAllLines(path);
+        foreach (var line in lines)
+        {
+            var parts = line.Split('|');
+            if (parts.Length == 3)
+            {
+                kolekce.Insert(new Kontakt(
+                    parts[0].Trim(),
+                    parts[1].Trim(),
+                    parts[2].Trim(),
+                    parts[3].Trim()
+                ));
+            }
+        }
+
+        Console.WriteLine($"Import: Načteno {kolekce.Count()} kontaktů ze souboru {path}.");
+        return kolekce;
+    }
+
+}
+
 public class ConsoleUI
 {
     private KontaktKolekce _data = new();
     private CommandManager _cmd = new();
 
-    // init kontakt
-
     public ConsoleUI()
     {
         _cmd.Execute(new InsertCommand(_data, new Kontakt("Adam", "Levý", "email", "34534234234")));
+    }
+
+    public void HledejKontakt()
+    {
+        Console.WriteLine("Hledejte podle jména:");
+        Console.WriteLine("________________________________________________________");
+        var search = Console.ReadLine();
+        Console.WriteLine($"Hledaný výraz: {search.ToLower()}");
+        Console.WriteLine("________________________________________________________");
+        var results = _data.Search(search);
+
+        KontaktIterator it = results.CreateIterator();
+
+        var i = 0;
+
+        while (it.HasMore())
+        {
+            var kontakt = it.Next();
+
+            Console.WriteLine($"{i++}. {kontakt.Jmeno} {kontakt.Prijmeni} | {kontakt.Email} | {kontakt.Telefon}");
+        }
+    }
+
+    public void SmazKontakt()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Z výpisu zadejte id kontaktu, který chcete smazat:");
+        Console.WriteLine("________________________________________________________");
+        Console.WriteLine();
+        ListKontakty();
+
+        var index = Console.ReadLine();
+        int id = int.Parse(index);
+
+
+        var obj = _data.GetById(id);
+        //Console.WriteLine(obj);
+
+        if (id != null)
+        {
+            _cmd.Execute(new DeleteCommand(_data, obj));
+        }
+        else
+        {
+            Console.WriteLine($"Došlo k chybě - existuje kontakt s indexem: {id}?");
+        }
     }
 
     public void VratZmeny()
@@ -387,7 +508,7 @@ public class ConsoleUI
 
 
         var obj = _data.GetById(id);
-        Console.WriteLine(obj);
+        //Console.WriteLine(obj);
 
         if (id != null)
         {
@@ -398,8 +519,6 @@ public class ConsoleUI
             Console.WriteLine($"Došlo k chybě - existuje kontakt s indexem: {id}");
         }
 
-
-
     }
 
     public void Nav()
@@ -409,6 +528,8 @@ public class ConsoleUI
         Console.WriteLine("1) Vypsat kontakty");
         Console.WriteLine("2) Vytvořit kontakt");
         Console.WriteLine("3) Duplikovat kontakt");
+        Console.WriteLine("4) Smaz kontakt");
+        Console.WriteLine("5) Hledej kontakt");
         Console.WriteLine("");
         Console.WriteLine("/) Vrať změny");
         Console.WriteLine("*) Konec");
@@ -449,12 +570,14 @@ public class ConsoleUI
             Console.WriteLine("Seznam je prázdný");
         }
 
-        var it = _data.CreateIterator();
         int i = 0;
+
+        KontaktIterator it = _data.CreateIterator();
 
         while (it.HasMore())
         {
             var kontakt = it.Next();
+           
             Console.WriteLine($"{i++}. {kontakt.Jmeno} {kontakt.Prijmeni} | {kontakt.Email} | {kontakt.Telefon}");
         }
     }
@@ -471,6 +594,8 @@ public class ConsoleUI
                 case "1": ListKontakty(); break;
                 case "2": VytvorKontakt(); break;
                 case "3": VytvorKopii(); break;
+                case "4": SmazKontakt(); break;
+                case "5": HledejKontakt(); break;
                 case "/": VratZmeny(); break;
                 case "*": return;
                 default: Console.WriteLine("Neplatná volba."); break;
