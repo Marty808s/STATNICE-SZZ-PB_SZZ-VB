@@ -2,10 +2,12 @@
 //2. Command: Pro zaznamenávání a možné vrácení změn v kontaktech.
 //3. Iterator: Pro navigaci skrze kolekci kontaktů.
 
-// čas 2 hodiny
+// čas 3 hodiny
 //--------------------------------------------------
 // Prototype - pro mě kontakt
+using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -195,6 +197,7 @@ public class KontaktKolekce : IKolekce
         return _kontakty[idx];
     }
 
+
     public Kontakt Copy(Kontakt kontak)
     {
         var existing = _kontakty.FirstOrDefault(p => p.Jmeno == kontak.Jmeno);
@@ -203,7 +206,7 @@ public class KontaktKolekce : IKolekce
             return existing;
         }
         var copy = existing.Clone();
-        copy.Jmeno = $"{kontak.Jmeno} (kopie)";
+        copy.Prijmeni = $"{kontak.Prijmeni} (kopie)";
         _kontakty.Add((Kontakt)copy);
         return (Kontakt)copy;
 
@@ -237,7 +240,7 @@ public class CommandManager
         if (_history.Count > 0)
         {
             var last_command = _history.Pop();
-            var status = last_command.Execute();
+            var status = last_command.Undo();
             return status;
         }
         else
@@ -355,11 +358,135 @@ public class CopyCommand : ICommand
     }
 }
 
+public class ConsoleUI
+{
+    private KontaktKolekce _data = new();
+    private CommandManager _cmd = new();
+
+    // init kontakt
+
+    public ConsoleUI()
+    {
+        _cmd.Execute(new InsertCommand(_data, new Kontakt("Adam", "Levý", "email", "34534234234")));
+    }
+
+    public void VratZmeny()
+    {
+        _cmd.Undo();
+    }
+    public void VytvorKopii()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Z výpisu zadejte id kontaktu, který chcete zkopírovat:");
+        Console.WriteLine("________________________________________________________");
+        Console.WriteLine();
+        ListKontakty();
+
+        var index = Console.ReadLine();
+        int id = int.Parse(index);
+
+
+        var obj = _data.GetById(id);
+        Console.WriteLine(obj);
+
+        if (id != null)
+        {
+            _cmd.Execute(new CopyCommand(_data,obj));
+        }
+        else
+        {
+            Console.WriteLine($"Došlo k chybě - existuje kontakt s indexem: {id}");
+        }
+
+
+
+    }
+
+    public void Nav()
+    {
+        Console.WriteLine("");
+        Console.WriteLine("___________Kontakty___________");
+        Console.WriteLine("1) Vypsat kontakty");
+        Console.WriteLine("2) Vytvořit kontakt");
+        Console.WriteLine("3) Duplikovat kontakt");
+        Console.WriteLine("");
+        Console.WriteLine("/) Vrať změny");
+        Console.WriteLine("*) Konec");
+    }
+
+    public void VytvorKontakt()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Jméno");
+        var jmeno = Console.ReadLine();
+        Console.WriteLine();
+        Console.WriteLine("Příjmení");
+        var prijmeni = Console.ReadLine();
+        Console.WriteLine();
+        Console.WriteLine("Email");
+        var email = Console.ReadLine();
+        Console.WriteLine();
+        Console.WriteLine("Telefon");
+        var telefon = Console.ReadLine();
+
+        //kontrola na emptry string!
+        if (jmeno != null && prijmeni != null && email != null && telefon != null) 
+        {
+            // mám všechno vykonám insert
+            _cmd.Execute(new InsertCommand(_data, new Kontakt(jmeno, prijmeni, telefon, email)));
+        }
+        else
+        {
+            Console.WriteLine("Vyplňte všechny údaje!");
+        }
+
+    }
+
+    public void ListKontakty()
+    {
+        if (_data.Count() == 0)
+        {
+            Console.WriteLine("Seznam je prázdný");
+        }
+
+        var it = _data.CreateIterator();
+        int i = 0;
+
+        while (it.HasMore())
+        {
+            var kontakt = it.Next();
+            Console.WriteLine($"{i++}. {kontakt.Jmeno} {kontakt.Prijmeni} | {kontakt.Email} | {kontakt.Telefon}");
+        }
+    }
+    public void Run()
+    {
+        bool run = true;
+        while (run) {
+            Nav();
+            var key = Console.ReadLine();
+            Console.WriteLine("");
+
+            switch (key)
+            {
+                case "1": ListKontakty(); break;
+                case "2": VytvorKontakt(); break;
+                case "3": VytvorKopii(); break;
+                case "/": VratZmeny(); break;
+                case "*": return;
+                default: Console.WriteLine("Neplatná volba."); break;
+            }
+        }
+
+    }
+
+
+}
 
 public class Program
 {
     public static void Main()
     {
-        Console.WriteLine("Hello World!");
+        var ui = new ConsoleUI();
+        ui.Run();
     }
 }
