@@ -435,16 +435,93 @@ public class FileManager
 
 }
 
+public class KontaktyFile
+{
+    private KontaktKolekce _data;
+    private string path;
+    private string name = "export.txt";
+
+    public KontaktyFile(KontaktKolekce kontakty)
+    {
+        string projectPath = AppDomain.CurrentDomain.BaseDirectory;
+        var fullPath = Path.Combine(projectPath, name);
+
+        this.path = fullPath;
+        this._data = kontakty;
+    }
+
+    public void Export()
+    {
+
+        using var sw = new StreamWriter(path);
+
+        KontaktIterator iterator = _data.CreateIterator();
+
+        while (iterator.HasMore())
+        {
+            var kontakt = iterator.Next();
+            sw.WriteLine($"{kontakt.Jmeno},{kontakt.Prijmeni},{kontakt.Email},{kontakt.Telefon}");
+        }
+        Console.WriteLine($"Soubor uložen: {path}");
+
+    }
+
+    public KontaktKolekce Import()
+    {
+
+        var kolekce = new KontaktKolekce();
+
+        if (!File.Exists(path))
+        {
+            Console.WriteLine("Import: Soubor nenalezen, bude vytvořen nový při exportu.");
+            return kolekce;
+        }
+
+        var lines = File.ReadAllLines(path);
+
+        foreach (var line in lines)
+        {
+            var parts = line.Split(',');
+            kolekce.Insert(new Kontakt(parts[0], parts[1], parts[2], parts[3]));
+
+        }
+
+        Console.WriteLine($"Import: Načteno {kolekce.Count()} kontaktů ze souboru {path}.");
+        return kolekce;
+
+    }
+}
+
 public class ConsoleUI
 {
-    private KontaktKolekce _data = new();
+    private KontaktKolekce _data;
     private CommandManager _cmd = new();
+    private KontaktyFile _file;
 
     public ConsoleUI()
     {
-        _cmd.Execute(new InsertCommand(_data, new Kontakt("Adam", "Levý", "email", "34534234234")));
+        _file = new KontaktyFile(_data);
+        KontaktKolekce _imported_data = _file.Import();
+
+        if (_imported_data.Count() > 0)
+        {
+            _data = _imported_data;
+        }
+        else
+        {
+            _data = new KontaktKolekce();
+            _cmd.Execute(new InsertCommand(_data, new Kontakt("Adam", "Levý", "email", "34534234234")));
+        }
+
     }
 
+
+    public void Export()
+    {
+        _file = new KontaktyFile(_data);
+        _file.Export();
+        Console.WriteLine("Exporuju..");
+    }
     public void HledejKontakt()
     {
         Console.WriteLine("Hledejte podle jména:");
@@ -530,6 +607,7 @@ public class ConsoleUI
         Console.WriteLine("3) Duplikovat kontakt");
         Console.WriteLine("4) Smaz kontakt");
         Console.WriteLine("5) Hledej kontakt");
+        Console.WriteLine("6) Export");
         Console.WriteLine("");
         Console.WriteLine("/) Vrať změny");
         Console.WriteLine("*) Konec");
@@ -596,6 +674,7 @@ public class ConsoleUI
                 case "3": VytvorKopii(); break;
                 case "4": SmazKontakt(); break;
                 case "5": HledejKontakt(); break;
+                case "6": Export(); break;
                 case "/": VratZmeny(); break;
                 case "*": return;
                 default: Console.WriteLine("Neplatná volba."); break;
