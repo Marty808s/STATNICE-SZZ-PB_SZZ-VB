@@ -503,14 +503,16 @@ public class ConsoleUI
         _file = new KontaktyFile(_data);
         KontaktKolekce _imported_data = _file.Import();
 
+        // pokud jsou nějaká data načtená, tak je přiřaď k proměnné
         if (_imported_data.Count() > 0)
         {
             _data = _imported_data;
         }
+        //jinak vytvoř dummy
         else
         {
             _data = new KontaktKolekce();
-            _cmd.Execute(new InsertCommand(_data, new Kontakt("Adam", "Levý", "email", "34534234234")));
+            _cmd.Execute(new InsertCommand(_data, new Kontakt("Adam", "Levý", "email", "34534234234"))); //dummy data
         }
 
     }
