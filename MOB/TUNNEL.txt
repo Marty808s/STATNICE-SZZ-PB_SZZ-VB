@@ -1,0 +1,3 @@
+npm i -D @expo/ngrok@latest @expo/dev-server@latest
+npx expo upgrade
+npx expo start -c --tunnel
