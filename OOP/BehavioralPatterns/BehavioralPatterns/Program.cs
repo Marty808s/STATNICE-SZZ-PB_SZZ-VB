@@ -1,8 +1,10 @@
-﻿// týkající se chování (Příkaz - DONE, Pozorovatel - DONE, Memo, Iterator - DONE, Strategy - DONE),
+﻿// týkající se chování (Příkaz - DONE, Pozorovatel - DONE, Memo - DONE, Iterator - DONE, Strategy - DONE, Mediator - DONE, Visitor - DONE),
 // https://refactoring.guru/design-patterns/behavioral-patterns
 //-----------------------------------------------------------
 //Příkaz - command
 // Command drří referenci na recievera - toho obalí a pak je volán
+using System.Linq.Expressions;
+
 public interface ICommand
 {
     void Execute();
@@ -246,7 +248,7 @@ public class FriendList : Kolekce
 }
 
 
-//můj iterátor
+//můj iterátor přes třídu profile
 public class FriendListIterator : ProfileIterator
 {
     private List<Profile> _friends;
@@ -267,6 +269,225 @@ public class FriendListIterator : ProfileIterator
         if (!HasMore())
             throw new InvalidOperationException("Iterator je na konci.");
         return _friends[_position++];
+    }
+}
+
+//-----------------------------------------------------------
+//Návštěvník - visitor
+//obejkty k navštívení - a následné manipulace
+
+// interface objektu, který bude visitor navštěvovat
+public interface IJustObject
+{
+    public void Accept(IVisitor visistor);
+}
+
+
+public class Dot : IJustObject
+{
+    public string Name = "Dot";
+    public int Index = 0;
+
+    public void Draw()
+    {
+        this.Index++;
+    }
+
+    public void Accept(IVisitor visitor)
+    {
+        visitor.VisitDot(this);
+    }
+
+    public void Move(int index)
+    {
+        this.Index--;
+    }
+}
+
+public class Line : IJustObject
+{
+    public string Name = "Line";
+    public int Index = 0;
+
+    public void Draw()
+    {
+        this.Index++;
+    }
+
+    public void Accept(IVisitor visitor)
+    {
+        visitor.VisitLine(this);
+    }
+
+    public void Move(int index)
+    {
+        this.Index--;
+    }
+}
+
+
+//rozhraní Visitor 
+public interface IVisitor
+{
+    public void VisitDot(Dot dot);
+    public void VisitLine(Line line);
+}
+
+
+public class JustObjectVisitor : IVisitor
+{
+    public void VisitDot(Dot dot)
+    {
+        Console.WriteLine($"{dot.Name} | {dot.Index}");
+    }
+
+    public void VisitLine(Line line)
+    {
+        Console.WriteLine($"{line.Name} | {line.Index}");
+    }
+}
+
+//-----------------------------------------------------------
+//Mediator
+// mediator ma jen metodu pro notifikaci - tu volaji komponenty
+public interface IMediator
+{
+    void Notify(object sender, string message);
+}
+
+
+public class ComponentA
+{
+    private IMediator _mediator;
+
+    // nastav mi mediatora
+    public void SetMediator( IMediator mediator )
+    {
+        _mediator = mediator;
+    }
+
+    // nastav mi mediatora - tady by mela byt podminka, jinak nevolej notify a vrat zpravu
+    public void OperationA()
+    {
+        Console.WriteLine("Tohle je operace A");
+        _mediator.Notify(this, "A"); //upozorneni mediatorovi
+    }
+
+}
+
+public class ComponentB
+{
+    private IMediator _mediator;
+
+    // nastav mi mediatora
+    public void SetMediator(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
+    public void OperationB()
+    {
+        Console.WriteLine("Tohle je operace B");
+        _mediator.Notify(this, "B"); //upozorneni mediatorovi
+    }
+
+}
+
+// má uložené jednotlivé komponenty - pokud by bylo potřeba zavolat metodu na reakci
+public class MyMediator : IMediator
+{
+    //tady jsou jednotlivé přiřazené komponenty
+    private ComponentA _componentaA;
+    private ComponentB _componentaB;
+
+    public MyMediator(ComponentA componentaA, ComponentB componentaB)
+    {
+        _componentaA = componentaA;
+        _componentaB = componentaB;
+    }
+
+    // metody pro reakci na signály
+    public void ReactOnA()
+    {
+        Console.WriteLine("Zpráva od A");
+    }
+
+    public void ReactOnB()
+    {
+        Console.WriteLine("Zpráva od B");
+    }
+
+    public void Notify(object sender, string message)
+    {
+        // ZDE ZPRACOVÁVÁ OPERACE - a návazně volám signály
+        Console.WriteLine($"Zpráva od {sender} | {message}");
+        Console.WriteLine("----------------------------------------");
+        if (sender == _componentaA)
+        {
+            // reaguji nas signál
+            ReactOnA();
+            //component.Metoda() - kdyby bylo nutné
+        }
+        else
+        {
+            ReactOnB();
+        }
+    }
+}
+
+//-----------------------------------------------------------
+//Mediator
+
+// Memento - udržuje snapshot
+public class OriginatorMemento
+{
+    public string SavedState { get; }
+
+    internal OriginatorMemento(string state)
+    {
+        SavedState = state;
+    }
+}
+
+
+// Originator – uchovává svůj stav, umí jej uložit/restaurovat
+class Originator
+{
+    private string _state; //můj stav
+
+    public void SetState(string state)
+    {
+        _state = state;
+        Console.WriteLine($"Originator: Nastavený stav je '{_state}'");
+    }
+
+    public OriginatorMemento SaveToMemento()
+    {
+        Console.WriteLine("Originator: Ukládám stav do Mementa.");
+        return new OriginatorMemento(_state);
+    }
+
+    public void RestoreFromMemento(OriginatorMemento memento)
+    {
+        _state = memento.SavedState;
+        Console.WriteLine($"Originator: Stav obnoven z Mementa: '{_state}'");
+    }
+
+}
+
+// Caretaker – spravuje uložené stavy (Mementa)
+class Caretaker
+{
+    private readonly List<OriginatorMemento> _history = new();
+
+    public void AddMemento(OriginatorMemento m)
+    {
+        _history.Add(m);
+    }
+
+    public OriginatorMemento GetMemento(int index)
+    {
+        return _history[index];
     }
 }
 
@@ -319,6 +540,7 @@ public class Program
         */
 
         //Iterátor
+        /*
         FriendList list = new FriendList();
         list.Add(new Profile("Alice"));
         list.Add(new Profile("Bob"));
@@ -331,6 +553,45 @@ public class Program
             Profile p = it.Next();
             p.SayHello();
         }
+        */
+
+        //Visitor
+        /*
+        var dot = new Dot();
+        var line = new Line();
+        var visitor = new JustObjectVisitor();
+        dot.Accept(visitor);
+        line.Accept(visitor);
+        */
+
+        //Mediator
+        /*
+        var c1 = new ComponentA();
+        var c2 = new ComponentB();
+        var mediator = new MyMediator(c1,c2);
+        c1.SetMediator(mediator);
+        c2.SetMediator(mediator);
+        c1.OperationA();
+        c2.OperationB();
+        */
+
+        //Memento
+        var originator = new Originator();
+        var caretaker = new Caretaker();
+
+        originator.SetState("Stav 1");
+        originator.SetState("Stav 2");
+
+        caretaker.AddMemento(originator.SaveToMemento());
+
+        originator.SetState("Stav 3");
+
+        caretaker.AddMemento(originator.SaveToMemento());
+
+        originator.SetState("Stav 4");
+
+        Console.WriteLine("\nObnovuji na předchozí stav...");
+        originator.RestoreFromMemento(caretaker.GetMemento(1));
 
 
 
