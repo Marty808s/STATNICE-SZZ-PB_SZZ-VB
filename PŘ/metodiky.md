@@ -100,3 +100,63 @@ Agilní přístup podporuje flexibilitu a iterativní vývoj.
 ![Change Management](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.JIV6RT4_HRbY9RmnqPfnYwHaEK%3Fpid%3DApi&f=1&ipt=6f5efa310d4feea871b24f6ed7472ae1825f221a2a3535bf315a5dc0e5f728aa)
 
 ---
+## 9. PDCA
+
+PDCA je metoda pro **neustálé zlepšování procesů** a zajištění kvality v projektovém řízení i managementu.  
+Název je zkratkou pro čtyři kroky:
+
+1. **P – Plan (Plánuj)**  
+   - Identifikace problému nebo příležitosti.  
+   - Stanovení cílů a procesů, jak jich dosáhnout.  
+   - Příprava plánu činností, zdrojů a kritérií hodnocení.  
+
+2. **D – Do (Proveď)**  
+   - Realizace plánu v menším měřítku (pilotní test).  
+   - Implementace změn a provádění činností podle plánu.  
+
+3. **C – Check (Kontroluj)**  
+   - Ověření, zda výsledky odpovídají cílům.  
+   - Porovnání skutečného stavu s očekáváním.  
+   - Zhodnocení efektivity a nalezení nedostatků.  
+
+4. **A – Act (Jednej / Uprav)**  
+   - Pokud změna funguje → zavedení plošně.  
+   - Pokud nefunguje → návrat do fáze plánování.  
+   - Nastavení standardů pro udržení zlepšení.  
+
+👉 Výhoda: PDCA je **iterativní** – probíhá jako **nekonečný cyklus zlepšování**.  
+
+![PDCA](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.passionned.com%2Fwp%2Fwp-content%2Fuploads%2Fpdca-cycle-imar-cycle.png&f=1&nofb=1&ipt=78e7bb1b31302805b028df9fcfbcb72d017c9768cd5f1bb74f225c250e2ec3e4)
+
+---
+## 10. Rozšířené verze PDCA
+
+### 10.1 PDSA (Plan-Do-Study-Act)
+- Varianta PDCA, kde místo **Check** je **Study (Studuj)**.  
+- Zdůrazňuje hlubší **analýzu výsledků**, nejen kontrolu.  
+- Využívá se např. v **lean managementu** a zdravotnictví.  
+
+---
+
+### 10.2 OPDCA (Observe-Plan-Do-Check-Act)
+- Přidává krok **O – Observe (Pozoruj)** před plánováním.  
+- Klade důraz na **pozorování a pochopení reality** před změnami.  
+- Používá se např. v **Toyota Production System**.  
+
+![OPDCA](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.leadershipsuccess.co%2Fhs-fs%2Fhubfs%2FThe%2520OPDCA%2520cycle.png%3Fwidth%3D1050%26name%3DThe%2520OPDCA%2520cycle.png&f=1&nofb=1&ipt=76bf3cbad547a4213e01b260962d2ce867946fc886708fcb8a7913d38e097d14)
+
+---
+
+### 10.3 SDCA (Standardize-Do-Check-Act)
+- Slouží k **udržování stabilních procesů**.  
+- **S – Standardize** znamená, že se ověřené postupy standardizují, aby se zajistila konzistence.  
+- Využívá se v prostředí, kde je klíčová **kvalita a opakovatelnost** (např. výroba).  
+
+---
+
+### Shrnutí
+- **PDCA** – základní model pro zlepšování.  
+- **PDSA** – důraz na hlubší analýzu.  
+- **OPDCA** – přidává fázi pozorování reality.  
+- **SDCA** – zaměřuje se na standardizaci ověřených procesů. 
+---
