@@ -1,3 +1,15 @@
+---
+title: "markdown"
+author: "Marty808s"
+date: "2025-09-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r knihovny}
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -9,31 +21,49 @@ View(dataset)
 
 
 data <- dataset
+```
 
-#vytvořte nový sloupec avg.score, který bude pro každý záznam tabulky obsahovat
-#průměrné skóre dané osoby ze sloupců math.score, reading.score
-#a writing.score,
+## Ukol 1
 
+vytvořte nový sloupec avg.score, který bude pro každý záznam tabulky obsahovat
+průměrné skóre dané osoby ze sloupců math.score, reading.score
+a writing.score,
+
+```{r mutate}
 data <- mutate(data, avgscore = (data$`math score` + data$`reading score` + data$`writing score`)/3)
-   
 
-# z tabulky vyfiltrujte pouze záznamy, kde sloupec parental.level.of.education
-#obsahuje pojem “high school” kdekoliv v textu,
+```
 
+## Ukol 2
+
+z tabulky vyfiltrujte pouze záznamy, kde sloupec parental.level.of.education
+obsahuje pojem “high school” kdekoliv v textu,
+
+```{r filter}
 data %>% filter(grepl('high school', data$`parental level of education`))
+```
 
-# vypočtěte průměrnou hodnotu sloupce avg.score pro každou kombinaci kategorií
-#gender a race.ethnicity,
 
+## Ukol 3
+
+vypočtěte průměrnou hodnotu sloupce avg.score pro každou kombinaci kategorií
+gender a race.ethnicity,
+
+```{r vypocet}
 res <- data %>%
   group_by(gender, `race/ethnicity`) %>%
   summarise(mean_avg = mean(avgscore, na.rm = TRUE)) %>%
     arrange(desc(mean_avg))
 res
+```
 
-# tabulku upravte do tzv. “širokého formátu” tak, aby kategorie ze sloupce gender
-#představovaly vlastní sloupce a vypočtené průměrné hodnoty byly hodnotami v těchto nových
-#sloupcích,
+## Ukol 4
+
+tabulku upravte do tzv. “širokého formátu” tak, aby kategorie ze sloupce gender
+představovaly vlastní sloupce a vypočtené průměrné hodnoty byly hodnotami v těchto nových
+sloupcích,
+
+```{r ukol4}
 wide <- data %>%
   group_by(gender, `race/ethnicity`) %>%
   summarise(mean_avg = mean(avgscore, na.rm = TRUE), .groups = "drop") %>%
@@ -46,11 +76,16 @@ wide <- data %>%
   )
 
 wide
+```
 
-# pro každou kategorii ze sloupce race.ethnicity vytvořte boxplot ze sloupce avg.score.
+## Ukol 5
 
+pro každou kategorii ze sloupce race.ethnicity vytvořte boxplot ze sloupce avg.score.
+
+```{r ukol5}
 ggplot(data, aes(x = `race/ethnicity`, y = avgscore, fill=`race/ethnicity`)) +
   geom_boxplot() +
   labs(x = "Race/Ethnicity", y = "Average score", title = "Rozdělení avgscore podle race/ethnicity") +
   theme_minimal()
+```
 
