@@ -153,10 +153,52 @@ Název je zkratkou pro čtyři kroky:
 - Využívá se v prostředí, kde je klíčová **kvalita a opakovatelnost** (např. výroba).  
 
 ---
+## 11. Lean
+
+Lean není striktně agilní metodika jako SCRUM nebo Kanban, ale spíše **filozofie řízení a soubor principů**, které inspirovaly agilní přístupy.  
+Vznikl v rámci **Toyota Production System (TPS)** a později byl přenesen do IT, služeb i projektového řízení.
+
+---
+
+### Zaměření
+Lean se soustředí na **odstraňování plýtvání (waste)** a **maximalizaci hodnoty pro zákazníka**.  
+Cílem je, aby všechny procesy přispívaly k výsledku, který má skutečnou hodnotu.
+
+---
+
+### 7 druhů plýtvání (*muda*)
+1. Nadprodukce  
+2. Čekání  
+3. Zbytečná doprava  
+4. Nadměrné zpracování  
+5. Zbytečný pohyb  
+6. Chyby a vady  
+7. Nevyužitý lidský potenciál  
+
+---
+
+### Klíčové principy Lean
+- **Hodnota** – zaměření na to, co zákazník skutečně potřebuje.  
+- **Tok hodnoty (Value Stream)** – mapování procesů a eliminace zbytečných kroků.  
+- **Plynulý tok (Flow)** – práce by měla plynout bez zbytečných zastávek.  
+- **Tah (Pull system)** – práce je prováděna pouze tehdy, když je na ni poptávka.  
+- **Kaizen** – princip neustálého zlepšování.  
+
+![Lean principles](https://upload.wikimedia.org/wikipedia/commons/6/64/Lean_principles.png)
+
+---
+
+### Lean v IT a agilním řízení
+- **Lean Software Development (LSD)**: přizpůsobení principů Lean pro vývoj softwaru.  
+- **Lean Startup (Eric Ries)**: aplikace v podnikání, důraz na rychlé testování hypotéz, **MVP (Minimum Viable Product)** a učení se z dat.  
+- Lean přístupy jsou základem pro další agilní metodiky (SCRUM, Kanban, XP).  
+
+---
 
 ### Shrnutí
-- **PDCA** – základní model pro zlepšování.  
-- **PDSA** – důraz na hlubší analýzu.  
-- **OPDCA** – přidává fázi pozorování reality.  
-- **SDCA** – zaměřuje se na standardizaci ověřených procesů. 
+- **Lean není metodika, ale filozofie a principy řízení**.  
+- Zaměřuje se na **odstranění plýtvání, efektivitu a hodnotu pro zákazníka**.  
+- Jeho principy pronikly do většiny moderních agilních metodik.  
+
+
 ---
