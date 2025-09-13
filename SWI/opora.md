@@ -17,7 +17,7 @@ Existuje více modelů (vodopádový, spirálový, agilní), ale obecné fáze j
 5. **Nasazení (Deployment)** – uvedení do provozu.  
 6. **Údržba (Maintenance)** – opravy, aktualizace, nové verze.  
 
-![SDLC](https://upload.wikimedia.org/wikipedia/commons/1/1d/SDLC_-_Software_Development_Life_Cycle.jpg)
+![SDLC](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fblog.gitguardian.com%2Fcontent%2Fimages%2F2022%2F05%2FSDLC2.png&f=1&nofb=1&ipt=e61dc3cc4b37ca9b0a9f8cfa3abc353e0cd46bf558ce8848fd4d34aad020b099)
 
 ---
 
