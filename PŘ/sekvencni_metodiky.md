@@ -74,7 +74,7 @@ Vývoj probíhá ve **spirálových cyklech**, kde se opakují fáze: plánován
 Tento model kombinuje **postupný vývoj po částech (inkrementy)** s **opakovanými iteracemi**.  
 Každá verze systému je použitelná a rozšiřuje předchozí.  
 
-![Iterative Incremental](https://upload.wikimedia.org/wikipedia/commons/5/5f/Iterative_development_model_-_en.png)
+![Iterative Incremental](![alt text](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.softwaretestingo.com%2Fwp-content%2Fuploads%2F2021%2F12%2FIterative-Incremental-model-1024x576.png&f=1&nofb=1&ipt=2a9ca76224456880159993dcd05885aa4caa35cfee345b9538aebe2ebced400e))
 
 ### Výhody
 - Průběžné výsledky.  
