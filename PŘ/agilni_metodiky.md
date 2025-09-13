@@ -30,6 +30,16 @@ SCRUM je nejpoužívanější agilní metodika, zaměřená na **iterativní vý
 
 ![SCRUM process](https://upload.wikimedia.org/wikipedia/commons/5/58/Scrum_process.svg)
 
+
+### Daily Scrum (stand-up)
+
+- Je to oficiální *Scrum ceremonie* a koná se **každý pracovní den** sprintu.  
+- **Cíl:** tým vývojářů si sladí práci, zjistí překážky a naplánuje, co udělají do dalšího dne.  
+- **Trvání:** max. **15 minut**, ideálně ve stejný čas a na stejném místě (často online).  
+- **Účast:** vývojový tým (Scrum Master a Product Owner se mohou účastnit, ale hlavní jsou vývojáři).  
+
+👉 Ostatní ceremonie (Sprint Planning, Sprint Review, Retrospektiva) probíhají **jen jednou za sprint**, zatímco *Daily Scrum* je opravdu **denní**.
+
 ---
 
 ## 2. Kanban
@@ -45,7 +55,7 @@ Kanban je metoda založená na **vizualizaci toku práce** a průběžném zlep�
 - Flexibilita bez pevně daných sprintů.  
 - Vhodné pro provozní týmy nebo projekty s proměnlivou prioritou.  
 
-![Kanban board](https://upload.wikimedia.org/wikipedia/commons/0/0d/Simple-kanban-board-.jpg)
+![Kanban board](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic-cse.canva.com%2Fblob%2F1355723%2Flong-form_kanban-boards_section-1_asset-1.png&f=1&nofb=1&ipt=ddc1a61ed9ee312a9585590586a8efc30da92aa90796b38dd4ec0c26681502c6)
 
 ---
 
@@ -63,7 +73,52 @@ Patří mezi **tradiční (waterfall) přístupy**, ale má i **agilní variantu
 - Využívá agilní praktiky (SCRUM, Kanban, Lean).  
 - Důraz na **flexibilitu dodávky** při zachování pevného rámce řízení.  
 
-![PRINCE2 lifecycle](https://upload.wikimedia.org/wikipedia/commons/2/2d/Prince2_process_model.png)
+![PRINCE2 lifecycle](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.toolshero.com%2Fwp-content%2Fuploads%2F2012%2F09%2Fprince2-prince-ii-proces-model-toolshero.jpg&f=1&nofb=1&ipt=8186164ec27a5aa84f6e541a15c0719a021d98b0cd35500d6d471ebccb2501c3)
+
+
+### 📌 Co je PRINCE2
+**PRINCE2 (Projects IN Controlled Environments)** je metodika řízení projektů, procesně orientovaná, založená na principech, tématech a procesech.  
+Používá se zejména ve státní správě a velkých organizacích, ale i v soukromém sektoru.  
+
+---
+
+### 👥 Role v PRINCE2
+
+| Role | Popis |
+|------|-------|
+| **Project Board** | Řídicí výbor projektu |
+| → Executive | Celková odpovědnost, business case |
+| → Senior User(s) | Zastupují uživatele, hlídají hodnotu projektu |
+| → Senior Supplier(s) | Zastupují dodavatele, zodpovídají za řešení |
+| **Project Manager** | Každodenní řízení, plánování, kontrola |
+| **Team Manager** | Řízení pracovních balíků a týmů |
+| **Project Assurance** | Nezávislý dohled nad kvalitou, hodnotou a dodávkami |
+| **Project Support** | Administrativní a nástrojová podpora |
+
+---
+
+### 📦 Product Delivery (Managing Product Delivery)
+
+- Proces zajišťující převod **požadavků na konkrétní produkty**.  
+- Zodpovědnost: **Team Manager**.  
+- Obsahuje:
+  - Převzetí pracovních balíků od Project Managera.  
+  - Realizaci a kontrolu kvality.  
+  - Předání hotových produktů k přejímce.  
+
+---
+
+### 🔄 Procesy (životní cyklus projektu v PRINCE2)
+
+| Proces | Účel |
+|--------|------|
+| **Starting up a Project (SU)** | Předprojektová příprava, ověření smyslu projektu |
+| **Initiating a Project (IP)** | Detailní nastavení projektu: plány, business case, strategie |
+| **Directing a Project (DP)** | Rozhodování Project Boardu v klíčových bodech |
+| **Controlling a Stage (CS)** | Řízení každodenních aktivit v rámci etapy |
+| **Managing Product Delivery (MP)** | Dodávka produktů dle zadání a kvality |
+| **Managing a Stage Boundary (SB)** | Vyhodnocení etapy a plán další fáze |
+| **Closing a Project (CP)** | Formální ukončení, předání, vyhodnocení |
 
 ---
 
@@ -84,7 +139,36 @@ Extreme Programming je agilní metodika zaměřená na **kvalitu softwaru a scho
 - Odvaha  
 - Respekt  
 
-![Extreme Programming](https://upload.wikimedia.org/wikipedia/commons/d/d8/Extreme_Programming.svg)
+### Extreme Programming (XP)
+
+**Extreme Programming (XP)** je agilní metodika vývoje softwaru, která klade důraz na **kvalitu kódu** a **schopnost reagovat na měnící se požadavky**.  
+Základní myšlenkou je, že změna je nevyhnutelná, a proto musí být tým připraven ji zvládnout rychle a bezpečně.
+
+---
+
+#### 🔑 Hlavní principy a praktiky XP
+
+- **Technické praktiky**:
+  - **Test-Driven Development (TDD)** – psaní testů před samotným kódem.  
+  - **Pair Programming** – dva vývojáři spolu u jednoho počítače.  
+  - **Continuous Integration** – časté začleňování změn do hlavní větve.  
+  - **Refactoring** – průběžné zlepšování kódu bez změny funkčnosti.  
+  - **Simple Design** – co nejjednodušší návrh, dostačující pro aktuální potřeby.  
+
+- **Organizační praktiky**:
+  - **Krátké iterace** (1–2 týdny).  
+  - **Planning Game** – společné plánování se zákazníkem.  
+  - **Sustainable Pace** – práce udržitelným tempem, žádné vyčerpávající přesčasy.  
+  - **On-site Customer** – zákazník (nebo jeho zástupce) je součástí týmu.  
+
+---
+
+#### 📌 Shrnutí
+- XP je **agilní metodika**.  
+- Oproti Scrumu (procesní rámec) se XP více zaměřuje na **technické praktiky a kvalitu kódu**.  
+- V praxi se často kombinuje: **Scrum + XP** → Scrum pro řízení procesu, XP pro zajištění vysoké kvality softwaru.  
+
+![Extreme Programming](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi0.wp.com%2Fcontenteratechspace.com%2Fwp-content%2Fuploads%2F2020%2F09%2Fextreme-programming-scaled.jpg%3Ffit%3D2560%252C1707%26ssl%3D1&f=1&nofb=1&ipt=5bba66f5cfa7e3e06e74f0e0c00115fd695844fbc6466ee62a3dfb722cb369d6)
 
 ---
 

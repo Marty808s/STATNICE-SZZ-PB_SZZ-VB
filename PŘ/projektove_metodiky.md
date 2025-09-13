@@ -74,7 +74,7 @@ Rizika se dělí podle závažnosti a pravděpodobnosti. Strategie řízení:
 - **Finanční plánování** zahrnuje sestavení rozpočtu, kontrolu nákladů a plánování zdrojů.  
 - **Harmonogram** slouží k časovému rozvržení činností, např. pomocí Ganttova diagramu.
 
-![Gantt Chart](https://upload.wikimedia.org/wikipedia/commons/1/19/GanttChartAnatomy.png)
+![Gantt Chart](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fprezentium.com%2Fwp-content%2Fuploads%2F2024%2F11%2Fgantt-chart.webp&f=1&nofb=1&ipt=689d0312932c079a9771bde265c87fd910d5e09665fcb6440faf3d484591e5d6)
 
 ---
 
@@ -184,7 +184,7 @@ Cílem je, aby všechny procesy přispívaly k výsledku, který má skutečnou 
 - **Tah (Pull system)** – práce je prováděna pouze tehdy, když je na ni poptávka.  
 - **Kaizen** – princip neustálého zlepšování.  
 
-![Lean principles](https://upload.wikimedia.org/wikipedia/commons/6/64/Lean_principles.png)
+![Lean principles](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flh5.googleusercontent.com%2F-lQoDUw-bBdkHKBblwBM5IatGp755LnzCLO_66ZQE0NMDdmqmj39Acqp_p4onw5vUS1k3SJAmlV7Ak7uLtb8gE6VrDd3eW4LyK7ah1K56mlXOf758xlDoJNW2ZFp7mEeUkzHrkuX&f=1&nofb=1&ipt=69297988342c8f0ac47590b76b56fe3e0111bce8c01a8fe702927789a8292287)
 
 ---
 

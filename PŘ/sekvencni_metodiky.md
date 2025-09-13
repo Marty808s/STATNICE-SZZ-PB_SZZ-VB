@@ -37,7 +37,7 @@ V-Model je rozšíření vodopádového modelu. Klade důraz na **paralelní tes
 - Pravá část „V“ – fáze testování (jednotkové, integrační, systémové, akceptační testy).  
 - Spojovací bod – implementace.  
 
-![V-Model](https://upload.wikimedia.org/wikipedia/commons/0/0e/V-Model.png)
+![V-Model](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fapi.reliasoftware.com%2Fuploads%2Fwhat_is_v_model_5679b57a14.webp&f=1&nofb=1&ipt=3dc4c4a4da4102c33512033237692a0c0f6ca6f681b52886f9c9484624bc8c74)
 
 ### Výhody
 - Důraz na kvalitu a testování.  
