@@ -47,7 +47,7 @@ def test_of_parantheses(text: str, parent_type: tuple) -> bool:
   return (para_count == 0, para_count, indent[-1])
 
 #count = test_of_parantheses("((asd))")
-is_equal, count, indent = test_of_parantheses("(()))(((())))", ("(",")"))
+is_equal, count, indent = test_of_parantheses("((()))(((())))", ("(",")"))
 print(is_equal, count, indent)
 
 # kód má ke každé položce modifikovatelné sekvence s celočíselnými prvky
