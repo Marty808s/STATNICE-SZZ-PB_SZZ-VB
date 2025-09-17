@@ -23,3 +23,4 @@ ggplot(data2, aes(x = `race/ethnicity`, y = grouped_avg, fill=`race/ethnicity`))
   geom_boxplot() +
   labs(x = "Race/Ethnicity", y = "Average score", title = "Rozdělení avgscore podle race/ethnicity") +
   theme_minimal()
+
